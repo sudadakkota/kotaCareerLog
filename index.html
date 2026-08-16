@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>CareerLog Pro - 転職活動・選考対策統合ダッシュボード</title>
+  <title>CareerLog Pro - 転職活動・Web面接対策統合ダッシュボード</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -46,8 +46,8 @@
     [v-cloak] { display: none; }
     
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
     }
     ::-webkit-scrollbar-track {
       background: transparent;
@@ -84,53 +84,53 @@
 
     <!-- Top Navigation Header -->
     <header class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all">
-      <div class="max-w-[1600px] mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
+      <div class="max-w-[1600px] mx-auto px-3 sm:px-6 h-15 sm:h-16 flex items-center justify-between gap-2">
         
         <!-- Brand & Main Tabs -->
-        <div class="flex items-center gap-3 sm:gap-6">
+        <div class="flex items-center gap-2 sm:gap-6">
           <div class="flex items-center gap-2">
-            <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-sm shadow-indigo-200">
-              <i data-lucide="compass" class="w-5 h-5"></i>
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-sm shadow-indigo-200">
+              <i data-lucide="compass" class="w-4 h-4 sm:w-5 sm:h-5"></i>
             </div>
-            <div class="hidden sm:block">
+            <div class="hidden md:block">
               <span class="font-bold text-base tracking-tight text-slate-900">CareerLog</span>
               <span class="ml-1 text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-600 border border-indigo-100">Pro</span>
             </div>
           </div>
 
-          <!-- Main View Selectors -->
+          <!-- Main View Switcher -->
           <nav class="flex items-center bg-slate-100/90 p-1 rounded-xl border border-slate-200/60 text-xs sm:text-sm font-medium">
             <button 
               @click="currentView = 'kanban'"
               :class="currentView === 'kanban' ? 'bg-white text-slate-900 shadow-xs font-bold' : 'text-slate-500 hover:text-slate-800'"
-              class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all"
+              class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all"
             >
-              <i data-lucide="layout-grid" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-              <span class="hidden sm:inline">カンバン</span>
+              <i data-lucide="layout-grid" class="w-3.5 h-3.5"></i>
+              <span>カンバン</span>
             </button>
             <button 
               @click="currentView = 'table'"
               :class="currentView === 'table' ? 'bg-white text-slate-900 shadow-xs font-bold' : 'text-slate-500 hover:text-slate-800'"
-              class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all"
+              class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all"
             >
-              <i data-lucide="table" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-              <span class="hidden sm:inline">一覧</span>
+              <i data-lucide="table" class="w-3.5 h-3.5"></i>
+              <span>一覧</span>
             </button>
             <button 
               @click="currentView = 'master'"
               :class="currentView === 'master' ? 'bg-white text-indigo-600 shadow-xs font-bold' : 'text-slate-500 hover:text-slate-800'"
-              class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all"
+              class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg transition-all"
             >
-              <i data-lucide="book-open" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-500"></i>
+              <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-500"></i>
               <span>共通ネタ帳</span>
             </button>
           </nav>
         </div>
 
         <!-- Global Actions -->
-        <div class="flex items-center gap-1.5 sm:gap-2.5">
-          <!-- Search -->
-          <div class="relative hidden md:block w-48 lg:w-60">
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <!-- Search (Desktop) -->
+          <div class="relative hidden lg:block w-48 xl:w-56">
             <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input 
               v-model="searchQuery" 
@@ -140,14 +140,14 @@
             />
           </div>
 
-          <!-- Quick Backup / Sync Modal Button -->
+          <!-- Quick Backup / Sync -->
           <button 
             @click="openSyncModal" 
-            title="データ同期・JSON連携"
-            class="flex items-center gap-1 px-2.5 py-1.5 sm:px-3 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/70 rounded-xl border border-slate-200/60 transition-all"
+            title="データ同期・バックアップ"
+            class="flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/70 rounded-xl border border-slate-200/60 transition-all"
           >
             <i data-lucide="cloud" class="w-3.5 h-3.5 text-indigo-600"></i>
-            <span class="hidden sm:inline">同期/バックアップ</span>
+            <span class="hidden sm:inline">同期/保存</span>
           </button>
 
           <!-- Add Job Button -->
@@ -163,72 +163,72 @@
       </div>
     </header>
 
-    <!-- Main Container -->
-    <main class="max-w-[1600px] mx-auto px-3 sm:px-6 py-5 flex-1 w-full space-y-5">
+    <!-- Main Content -->
+    <main class="max-w-[1600px] mx-auto px-3 sm:px-6 py-4 sm:py-5 flex-1 w-full space-y-4 sm:space-y-5">
 
-      <!-- SECTION: 転職の軸 & スケジュールリマインダー (カンバン/リスト表示時) -->
-      <div v-if="currentView !== 'master'" class="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4">
+      <!-- TOP SECTION: 転職の軸 & スケジュール (カンバン/一覧時) -->
+      <div v-if="currentView !== 'master'" class="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
         
-        <!-- 転職の軸 (Core Criteria) -->
-        <div class="lg:col-span-8 bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs relative overflow-hidden">
-          <div class="flex items-center justify-between mb-3">
+        <!-- 転職の軸 -->
+        <div class="lg:col-span-8 bg-white border border-slate-200/80 rounded-2xl p-4 shadow-2xs relative">
+          <div class="flex items-center justify-between mb-2.5">
             <div class="flex items-center gap-2">
-              <div class="w-7 h-7 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
+              <div class="w-6 h-6 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center text-amber-600">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
               </div>
               <h2 class="text-xs sm:text-sm font-bold text-slate-900">転職の軸（大切にしたい価値観・条件）</h2>
             </div>
             <button 
               @click="openAxesModal" 
-              class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 px-2 py-1 rounded-lg hover:bg-indigo-50 transition-colors"
+              class="text-xs text-indigo-600 hover:text-indigo-800 font-semibold flex items-center gap-1 px-2 py-0.5 rounded-lg hover:bg-indigo-50 transition-colors"
             >
               <i data-lucide="edit-3" class="w-3 h-3"></i>
               <span>編集</span>
             </button>
           </div>
 
-          <div class="flex flex-wrap gap-2">
+          <div class="flex flex-wrap gap-1.5 sm:gap-2">
             <div 
               v-for="(axis, index) in axes" 
               :key="index" 
-              class="flex items-center gap-2 bg-slate-50 border border-slate-200/80 px-3 py-1.5 rounded-xl text-xs text-slate-700"
+              class="flex items-center gap-1.5 bg-slate-50 border border-slate-200/80 px-2.5 py-1 sm:py-1.5 rounded-xl text-xs text-slate-700"
             >
               <span class="w-4 h-4 rounded-full bg-indigo-100 text-indigo-700 text-[10px] font-bold flex items-center justify-center">
                 {{ index + 1 }}
               </span>
-              <span class="font-medium">{{ axis }}</span>
+              <span class="font-medium truncate max-w-[280px] sm:max-w-none">{{ axis }}</span>
             </div>
             <button 
               v-if="axes.length === 0" 
               @click="openAxesModal" 
               class="text-xs text-slate-400 border border-dashed border-slate-300 px-3 py-1.5 rounded-xl hover:border-indigo-400 hover:text-indigo-600"
             >
-              + 転職の軸を登録してください（3〜5個推奨）
+              + 転職の軸を登録（3〜5個推奨）
             </button>
           </div>
         </div>
 
-        <!-- 直近の面接・締切予定 -->
-        <div class="lg:col-span-4 bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 shadow-2xs flex flex-col justify-between">
+        <!-- 直近の選考・面接リマインダー -->
+        <div class="lg:col-span-4 bg-white border border-slate-200/80 rounded-2xl p-4 shadow-2xs flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
               <div class="flex items-center gap-2">
-                <div class="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
-                  <i data-lucide="calendar" class="w-4 h-4"></i>
+                <div class="w-6 h-6 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600">
+                  <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
                 </div>
-                <h2 class="text-xs sm:text-sm font-bold text-slate-900">直近の選考・締切</h2>
+                <h2 class="text-xs sm:text-sm font-bold text-slate-900">直近の選考予定</h2>
               </div>
               <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
                 {{ upcomingEvents.length }} 件
               </span>
             </div>
 
-            <div v-if="upcomingEvents.length > 0" class="space-y-1.5 mt-2 max-h-28 overflow-y-auto pr-1">
+            <div v-if="upcomingEvents.length > 0" class="space-y-1.5 max-h-24 overflow-y-auto pr-1">
               <div 
                 v-for="item in upcomingEvents" 
                 :key="item.id" 
                 @click="openCheatSheet(item)"
-                class="flex items-center justify-between p-2 rounded-xl bg-slate-50 hover:bg-indigo-50/60 border border-slate-100 hover:border-indigo-200 cursor-pointer transition-all group"
+                class="flex items-center justify-between p-1.5 sm:p-2 rounded-xl bg-slate-50 hover:bg-indigo-50/60 border border-slate-100 hover:border-indigo-200 cursor-pointer transition-all group"
               >
                 <div class="flex items-center gap-2 min-w-0">
                   <span class="w-2 h-2 rounded-full shrink-0" :class="getEventDotColor(item.nextDate)"></span>
@@ -237,12 +237,10 @@
                     <p class="text-[10px] text-slate-500 truncate">{{ item.nextEventTitle || getStatusLabel(item.status) }}</p>
                   </div>
                 </div>
-                <div class="text-right shrink-0">
-                  <span class="text-[11px] font-bold text-slate-700 group-hover:text-indigo-600">{{ formatDisplayDate(item.nextDate) }}</span>
-                </div>
+                <span class="text-[11px] font-bold text-slate-700 group-hover:text-indigo-600 shrink-0">{{ formatDisplayDate(item.nextDate) }}</span>
               </div>
             </div>
-            <div v-else class="py-3 text-center text-xs text-slate-400">
+            <div v-else class="py-2.5 text-center text-xs text-slate-400">
               直近に予定されている選考はありません
             </div>
           </div>
@@ -252,7 +250,7 @@
 
       <!-- VIEW 1: カンバンボード -->
       <div v-if="currentView === 'kanban'" class="space-y-3">
-        <!-- Controls Bar -->
+        <!-- Controls -->
         <div class="flex flex-wrap items-center justify-between gap-2">
           <div class="flex items-center gap-2 text-xs text-slate-500">
             <span>全求人: <strong class="text-slate-800">{{ jobs.length }}</strong></span>
@@ -262,17 +260,15 @@
             <span>内定: <strong class="text-emerald-600">{{ offerJobsCount }}</strong></span>
           </div>
 
-          <div class="flex items-center gap-2">
-            <select 
-              v-model="filterPriority" 
-              class="text-xs bg-white border border-slate-200 rounded-xl px-2.5 py-1 text-slate-700 focus:outline-none"
-            >
-              <option value="all">すべての優先度</option>
-              <option value="high">優先度: 高 🔥</option>
-              <option value="mid">優先度: 中</option>
-              <option value="low">優先度: 低</option>
-            </select>
-          </div>
+          <select 
+            v-model="filterPriority" 
+            class="text-xs bg-white border border-slate-200 rounded-xl px-2.5 py-1 text-slate-700 focus:outline-none"
+          >
+            <option value="all">すべての優先度</option>
+            <option value="high">優先度: 高 🔥</option>
+            <option value="mid">優先度: 中</option>
+            <option value="low">優先度: 低</option>
+          </select>
         </div>
 
         <!-- Kanban Columns -->
@@ -281,9 +277,9 @@
             <div 
               v-for="col in columns" 
               :key="col.id" 
-              class="w-[230px] shrink-0 flex flex-col bg-slate-100/80 border border-slate-200/60 rounded-2xl max-h-[calc(100vh-280px)]"
+              class="w-[230px] shrink-0 flex flex-col bg-slate-100/80 border border-slate-200/60 rounded-2xl max-h-[calc(100vh-270px)]"
             >
-              <!-- Col Header -->
+              <!-- Column Header -->
               <div class="p-3 pb-2 flex items-center justify-between border-b border-slate-200/40">
                 <div class="flex items-center gap-2">
                   <span class="w-2.5 h-2.5 rounded-full" :class="col.colorClass"></span>
@@ -304,13 +300,34 @@
                   v-for="job in getJobsByStatus(col.id)" 
                   :key="job.id" 
                   :data-id="job.id"
-                  class="job-card group bg-white border border-slate-200/80 rounded-xl p-3.5 shadow-2xs hover:shadow-md hover:border-indigo-300 transition-all cursor-grab active:cursor-grabbing relative"
+                  class="job-card group bg-white border border-slate-200/80 rounded-xl p-3 shadow-2xs hover:shadow-md hover:border-indigo-300 transition-all cursor-grab active:cursor-grabbing relative"
                 >
                   <div class="flex items-center justify-between gap-1 mb-1.5">
                     <span :class="getPriorityBadgeClass(job.priority)" class="text-[10px] font-bold px-1.5 py-0.5 rounded-md">
                       {{ getPriorityLabel(job.priority) }}
                     </span>
-                    <span v-if="job.route" class="text-[10px] text-slate-400 truncate max-w-[85px]">{{ job.route }}</span>
+                    <div class="flex items-center gap-1">
+                      <!-- Direct Job URL Link -->
+                      <a 
+                        v-if="job.url" 
+                        :href="job.url" 
+                        target="_blank" 
+                        @click.stop 
+                        class="text-indigo-500 hover:text-indigo-700 p-0.5"
+                        title="求人ページを開く"
+                      >
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                      </a>
+                      <!-- Direct PDF Preview Link -->
+                      <button 
+                        v-if="job.pdfBase64" 
+                        @click.stop="openPdfPreview(job)" 
+                        class="text-rose-500 hover:text-rose-700 p-0.5"
+                        title="添付された求人票PDFを開く"
+                      >
+                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                      </button>
+                    </div>
                   </div>
 
                   <h4 class="font-bold text-sm text-slate-900 group-hover:text-indigo-600 transition-colors leading-snug line-clamp-1">
@@ -319,13 +336,13 @@
                   <p class="text-xs text-slate-500 truncate mt-0.5">{{ job.position }}</p>
 
                   <!-- Salary & Next Event Date -->
-                  <div class="mt-2.5 pt-2 border-t border-slate-100 flex flex-col gap-1 text-[11px]">
+                  <div class="mt-2 pt-2 border-t border-slate-100 flex flex-col gap-1 text-[11px]">
                     <div v-if="job.salary" class="flex items-center justify-between text-slate-600 font-medium">
                       <span class="text-slate-400">想定年収</span>
                       <span>{{ job.salary }}</span>
                     </div>
                     <div v-if="job.nextDate" class="flex items-center justify-between text-indigo-600 font-bold bg-indigo-50/70 px-1.5 py-0.5 rounded-md">
-                      <span class="flex items-center gap-1 text-[10px] truncate max-w-[110px]"><i data-lucide="clock" class="w-3 h-3 shrink-0"></i> {{ job.nextEventTitle || '次回予定' }}</span>
+                      <span class="flex items-center gap-1 text-[10px] truncate max-w-[100px]"><i data-lucide="clock" class="w-3 h-3 shrink-0"></i> {{ job.nextEventTitle || '次回予定' }}</span>
                       <span>{{ formatDisplayDate(job.nextDate) }}</span>
                     </div>
                   </div>
@@ -340,10 +357,9 @@
                     </div>
 
                     <div class="flex items-center gap-1">
-                      <!-- Cheat Sheet Button (Primary) -->
                       <button 
                         @click.stop="openCheatSheet(job)" 
-                        title="面接直前カンペモード"
+                        title="面接カンペモード（画面分割最適化）"
                         class="px-2 py-1 bg-slate-900 hover:bg-indigo-600 text-white rounded-lg flex items-center gap-1 text-[10px] font-bold transition-all shadow-xs"
                       >
                         <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
@@ -351,7 +367,7 @@
                       </button>
                       <button 
                         @click.stop="openJobModal(job)" 
-                        title="編集"
+                        title="詳細編集"
                         class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg"
                       >
                         <i data-lucide="more-horizontal" class="w-3.5 h-3.5"></i>
@@ -381,12 +397,12 @@
             <thead>
               <tr class="bg-slate-50/80 border-b border-slate-200 text-slate-500 font-semibold uppercase text-[11px] tracking-wider">
                 <th class="py-3 px-4">企業名 & 職種</th>
+                <th class="py-3 px-3">求人リンク/PDF</th>
                 <th class="py-3 px-3">ステータス</th>
                 <th class="py-3 px-3">優先度</th>
                 <th class="py-3 px-3">想定年収</th>
-                <th class="py-3 px-3">次回予定 / 期限</th>
+                <th class="py-3 px-3">次回予定</th>
                 <th class="py-3 px-3">軸一致度</th>
-                <th class="py-3 px-3">面接ログ数</th>
                 <th class="py-3 px-4 text-right">アクション</th>
               </tr>
             </thead>
@@ -398,13 +414,30 @@
                 @click="openJobModal(job)"
               >
                 <td class="py-3.5 px-4">
-                  <div class="font-bold text-slate-900 group-hover:text-indigo-600 flex items-center gap-2">
-                    <span>{{ job.company }}</span>
-                    <a v-if="job.url" :href="job.url" target="_blank" @click.stop class="text-slate-400 hover:text-indigo-600">
-                      <i data-lucide="external-link" class="w-3 h-3"></i>
-                    </a>
-                  </div>
+                  <div class="font-bold text-slate-900 group-hover:text-indigo-600">{{ job.company }}</div>
                   <div class="text-xs text-slate-500">{{ job.position }}</div>
+                </td>
+                <td class="py-3.5 px-3" @click.stop>
+                  <div class="flex items-center gap-2">
+                    <a 
+                      v-if="job.url" 
+                      :href="job.url" 
+                      target="_blank" 
+                      class="inline-flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-800 font-semibold px-2 py-0.5 rounded bg-indigo-50"
+                      title="求人リンク"
+                    >
+                      <i data-lucide="external-link" class="w-3 h-3"></i> リンク
+                    </a>
+                    <button 
+                      v-if="job.pdfBase64" 
+                      @click="openPdfPreview(job)" 
+                      class="inline-flex items-center gap-1 text-xs text-rose-600 hover:text-rose-800 font-semibold px-2 py-0.5 rounded bg-rose-50"
+                      title="PDF求人票"
+                    >
+                      <i data-lucide="file-text" class="w-3 h-3"></i> PDF
+                    </button>
+                    <span v-if="!job.url && !job.pdfBase64" class="text-slate-300">-</span>
+                  </div>
                 </td>
                 <td class="py-3.5 px-3">
                   <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
@@ -431,9 +464,6 @@
                   <span class="font-bold text-amber-500">{{ getAxisScore(job) }}</span>
                   <span class="text-slate-400 text-xs">/ {{ axes.length }}</span>
                 </td>
-                <td class="py-3.5 px-3 text-xs text-slate-600">
-                  {{ (job.interviews && job.interviews.length) || 0 }} 回分
-                </td>
                 <td class="py-3.5 px-4 text-right" @click.stop>
                   <div class="flex items-center justify-end gap-1.5">
                     <button 
@@ -457,7 +487,7 @@
         </div>
       </div>
 
-      <!-- VIEW 3: マイキャリア・共通ネタ帳 (Master Story & QA Data) -->
+      <!-- VIEW 3: マイキャリア・共通ネタ帳（Q&A・STAR・自己PR） -->
       <div v-if="currentView === 'master'" class="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-7 shadow-xs space-y-6">
         <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
@@ -466,28 +496,37 @@
               <span>マイキャリア・共通ネタ帳（全社共通マスター）</span>
             </h2>
             <p class="text-xs text-slate-500 mt-0.5">
-              面接で頻出するエピソード（STAR形式）や自己PR、強み・弱み、キャリア観を1箇所にストック。面接直前カンペモードからいつでもワンタップで参照できます。
+              面接で頻出するエピソード（STAR）や想定質問＆回答（Q&A）、自己PRを1箇所に蓄積。面接直前カンペモードから即座に参照できます。
             </p>
           </div>
-          <button 
-            @click="addMasterEpisode" 
-            class="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-xs font-bold transition-colors"
-          >
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>STARエピソードを追加</span>
-          </button>
+          <div class="flex items-center gap-2">
+            <button 
+              @click="addMasterQA" 
+              class="flex items-center gap-1 px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-xl text-xs font-bold transition-colors"
+            >
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>想定Q&Aを追加</span>
+            </button>
+            <button 
+              @click="addMasterEpisode" 
+              class="flex items-center gap-1 px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-xs font-bold transition-colors"
+            >
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>STARエピソード追加</span>
+            </button>
+          </div>
         </div>
 
         <!-- Master Section 1: 基本アピール & キャリア観 -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="space-y-1.5">
             <label class="text-xs font-bold text-slate-700 flex items-center gap-1">
-              <i data-lucide="user" class="w-3.5 h-3.5 text-indigo-500"></i> エレベーターピッチ・1分自己紹介サマリー
+              <i data-lucide="user" class="w-3.5 h-3.5 text-indigo-500"></i> 1分自己紹介サマリー / エレベーターピッチ
             </label>
             <textarea 
               v-model="masterData.selfIntro" 
               rows="4" 
-              placeholder="経歴の要約、専門性、強み、今回の転職理由をコンパクトに" 
+              placeholder="経歴の要約、専門領域、強み、今回の転職理由をコンパクトに" 
               class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs leading-relaxed focus:bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
             ></textarea>
           </div>
@@ -511,51 +550,93 @@
             <textarea 
               v-model="masterData.careerVision" 
               rows="4" 
-              placeholder="3年後: 専門領域でのプレイングリーダー&#10;5年後: 組織マネジメントまたは高難度アーキテクト&#10;10年後: ビジネス全体を牽引するエグゼクティブ" 
+              placeholder="3年後: 専門領域でのプレイングリーダー&#10;5年後: 組織マネジメントまたは高難度アーキテクト" 
               class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs leading-relaxed focus:bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
             ></textarea>
           </div>
 
           <div class="space-y-1.5">
             <label class="text-xs font-bold text-slate-700 flex items-center gap-1">
-              <i data-lucide="help-circle" class="w-3.5 h-3.5 text-violet-500"></i> 定番逆質問ストック（全社で使える鋭い質問集）
+              <i data-lucide="help-circle" class="w-3.5 h-3.5 text-violet-500"></i> 定番逆質問ストック
             </label>
             <textarea 
               v-model="masterData.commonReverseQuestions" 
               rows="4" 
-              placeholder="・入社後3ヶ月で最も期待される成果や立ち振る舞いは？&#10;・現在チームが直面している最も大きな技術的/組織的課題は？" 
+              placeholder="・入社後3ヶ月で最も期待される成果は？&#10;・現在チームが直面している最も大きな技術的/組織的課題は？" 
               class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs leading-relaxed focus:bg-white focus:ring-2 focus:ring-indigo-500/20 outline-none"
             ></textarea>
           </div>
         </div>
 
-        <!-- Master Section 2: 汎用エピソード集 (STAR形式) -->
+        <!-- Master Section 2: 想定質問＆回答 (Q&Aリスト) -->
+        <div class="space-y-3 pt-4 border-t border-slate-100">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
+              <i data-lucide="help-circle" class="w-4 h-4 text-emerald-600"></i>
+              <span>想定質問＆回答（Q&Aリスト）</span>
+            </h3>
+            <button @click="addMasterQA" class="text-xs text-emerald-600 font-bold hover:underline">+ 質問を追加</button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div 
+              v-for="(qa, qIdx) in masterData.qaList" 
+              :key="qIdx" 
+              class="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 space-y-2 relative"
+            >
+              <div class="flex items-center gap-2">
+                <input 
+                  v-model="qa.tag" 
+                  type="text" 
+                  placeholder="タグ (例: 転職理由, スタンス)" 
+                  class="text-[10px] font-bold px-2 py-0.5 bg-white border border-slate-200 rounded-md text-slate-600 w-28 shrink-0 outline-none"
+                />
+                <input 
+                  v-model="qa.question" 
+                  type="text" 
+                  placeholder="想定質問（例: なぜ現職を退職するのか？）" 
+                  class="font-bold text-xs text-slate-800 bg-white border border-slate-200 rounded-md px-2 py-1 flex-1 outline-none"
+                />
+                <button @click="removeMasterQA(qIdx)" class="text-slate-400 hover:text-rose-500 p-1 shrink-0">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+              <textarea 
+                v-model="qa.answer" 
+                rows="2" 
+                placeholder="回答の要点・結論ファーストでのメモ..." 
+                class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs leading-relaxed outline-none focus:border-indigo-400"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Master Section 3: 汎用エピソード集 (STAR形式) -->
         <div class="space-y-4 pt-4 border-t border-slate-100">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold text-slate-800 flex items-center gap-1.5">
               <i data-lucide="layers" class="w-4 h-4 text-indigo-600"></i>
-              <span>STAR形式 汎用エピソード集（成功体験・困難克服・リーダーシップなど）</span>
+              <span>STAR形式 汎用エピソード集</span>
             </h3>
-            <span class="text-xs text-slate-400">{{ masterData.episodes.length }} 件登録済み</span>
+            <button @click="addMasterEpisode" class="text-xs text-indigo-600 font-bold hover:underline">+ エピソードを追加</button>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div 
               v-for="(ep, eIdx) in masterData.episodes" 
               :key="eIdx" 
-              class="bg-slate-50/90 border border-slate-200/80 rounded-xl p-4 space-y-3 relative group"
+              class="bg-slate-50/90 border border-slate-200/80 rounded-xl p-4 space-y-2.5 relative group"
             >
               <div class="flex items-center justify-between gap-2">
                 <input 
                   v-model="ep.title" 
                   type="text" 
-                  placeholder="エピソードタイトル（例: クラウド移行プロジェクトの完遂）" 
-                  class="font-bold text-xs sm:text-sm text-slate-800 bg-transparent border-b border-transparent focus:border-indigo-500 outline-none w-full"
+                  placeholder="エピソードタイトル（例: クラウド移行プロジェクト）" 
+                  class="font-bold text-xs sm:text-sm text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1 w-full"
                 />
                 <button 
                   @click="removeMasterEpisode(eIdx)" 
-                  class="text-slate-400 hover:text-rose-500 p-1 transition-colors shrink-0"
-                  title="エピソード削除"
+                  class="text-slate-400 hover:text-rose-500 p-1 shrink-0"
                 >
                   <i data-lucide="trash-2" class="w-4 h-4"></i>
                 </button>
@@ -563,20 +644,20 @@
 
               <div class="grid grid-cols-1 gap-2 text-xs">
                 <div>
-                  <span class="font-bold text-slate-600 text-[11px] block text-indigo-700">【S】Situation (状況・背景)</span>
-                  <input v-model="ep.situation" type="text" placeholder="当時の組織状況、プロジェクト規模など" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none focus:border-indigo-400" />
+                  <span class="font-bold text-[11px] block text-indigo-700">【S】Situation (状況・背景)</span>
+                  <input v-model="ep.situation" type="text" placeholder="組織状況、プロジェクト規模など" class="w-full px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs outline-none" />
                 </div>
                 <div>
-                  <span class="font-bold text-slate-600 text-[11px] block text-indigo-700">【T】Task (課題・直面した困難)</span>
-                  <input v-model="ep.task" type="text" placeholder="何が問題で、自分の役割は何だったか" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none focus:border-indigo-400" />
+                  <span class="font-bold text-[11px] block text-indigo-700">【T】Task (課題・直面した困難)</span>
+                  <input v-model="ep.task" type="text" placeholder="何が問題で、自分の役割は何だったか" class="w-full px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs outline-none" />
                 </div>
                 <div>
-                  <span class="font-bold text-slate-600 text-[11px] block text-indigo-700">【A】Action (取った具体的な行動・工夫)</span>
-                  <textarea v-model="ep.action" rows="2" placeholder="自分ならではの工夫、周囲への巻き込み、解決プロセス" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none focus:border-indigo-400"></textarea>
+                  <span class="font-bold text-[11px] block text-indigo-700">【A】Action (具体的な工夫・行動)</span>
+                  <textarea v-model="ep.action" rows="2" placeholder="自分ならではの工夫、周囲への巻き込み" class="w-full px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs outline-none"></textarea>
                 </div>
                 <div>
-                  <span class="font-bold text-slate-600 text-[11px] block text-indigo-700">【R】Result & Learning (成果・数字・学び)</span>
-                  <input v-model="ep.result" type="text" placeholder="定量成果（工数30%減など）と今後の再現性・学び" class="w-full px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none focus:border-indigo-400" />
+                  <span class="font-bold text-[11px] block text-indigo-700">【R】Result & Learning (成果・数字・学び)</span>
+                  <input v-model="ep.result" type="text" placeholder="定量成果と今後の再現性・学び" class="w-full px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-xs outline-none" />
                 </div>
               </div>
             </div>
@@ -588,13 +669,13 @@
     </main>
 
     <!-- ========================================================================= -->
-    <!-- MODAL 1: 求人詳細・面接ログ編集モーダル                                      -->
+    <!-- MODAL 1: 求人詳細・面接ログ編集モーダル（URL明確化 & PDF添付対応）            -->
     <!-- ========================================================================= -->
     <div v-if="isJobModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
       <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden my-auto">
         
         <!-- Header -->
-        <div class="px-5 py-3.5 border-b border-slate-200 flex items-center justify-between bg-slate-50/80">
+        <div class="px-4 sm:px-5 py-3.5 border-b border-slate-200 flex items-center justify-between bg-slate-50/80">
           <div class="flex items-center gap-2">
             <div class="w-8 h-8 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold">
               <i data-lucide="briefcase" class="w-4 h-4"></i>
@@ -634,13 +715,57 @@
         </div>
 
         <!-- Body -->
-        <div class="px-5 py-4 overflow-y-auto space-y-6 flex-1 text-sm">
+        <div class="px-4 sm:px-6 py-4 overflow-y-auto space-y-5 flex-1 text-sm">
           
-          <!-- TAB 1: 基本情報 & 企業固有の志望動機・対策 -->
-          <div v-if="jobModalTab === 'basic'" class="space-y-5">
+          <!-- TAB 1: 基本情報 & 求人リンク/PDF添付 -->
+          <div v-if="jobModalTab === 'basic'" class="space-y-4">
             
+            <!-- TOP PROMINENT SECTION: 求人URL & PDF添付 -->
+            <div class="p-3.5 bg-indigo-50/60 border border-indigo-100 rounded-xl space-y-3">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <!-- 求人URL -->
+                <div>
+                  <label class="block text-xs font-bold text-indigo-950 mb-1 flex items-center justify-between">
+                    <span class="flex items-center gap-1"><i data-lucide="link" class="w-3.5 h-3.5 text-indigo-600"></i> 求人ページ URL</span>
+                    <a v-if="editingJob.url" :href="editingJob.url" target="_blank" class="text-[11px] text-indigo-600 hover:underline flex items-center gap-0.5">
+                      <span>開く</span> <i data-lucide="external-link" class="w-3 h-3"></i>
+                    </a>
+                  </label>
+                  <input 
+                    v-model="editingJob.url" 
+                    type="url" 
+                    placeholder="https://bizreach.jp/... または企業採用ページ" 
+                    class="w-full px-3 py-1.5 bg-white border border-indigo-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  />
+                </div>
+
+                <!-- 求人票PDF添付 -->
+                <div>
+                  <label class="block text-xs font-bold text-indigo-950 mb-1 flex items-center gap-1">
+                    <i data-lucide="file-text" class="w-3.5 h-3.5 text-rose-500"></i> 求人票 PDFファイル添付
+                  </label>
+                  
+                  <div class="flex items-center gap-2">
+                    <label class="cursor-pointer px-3 py-1.5 bg-white border border-indigo-200 hover:bg-slate-50 text-indigo-700 text-xs font-bold rounded-lg flex items-center gap-1">
+                      <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                      <span>PDFを選択</span>
+                      <input type="file" accept="application/pdf" @change="handlePdfUpload" class="hidden" />
+                    </label>
+
+                    <div v-if="editingJob.pdfBase64" class="flex items-center gap-1.5 bg-white px-2 py-1 border border-slate-200 rounded-lg text-xs flex-1 truncate">
+                      <i data-lucide="file-check" class="w-3.5 h-3.5 text-emerald-600 shrink-0"></i>
+                      <span class="truncate text-slate-700 font-medium">{{ editingJob.pdfName || '求人票.pdf' }}</span>
+                      <button @click="openPdfPreview(editingJob)" type="button" class="text-indigo-600 hover:underline font-bold text-[11px] shrink-0 ml-1">閲覧</button>
+                      <button @click="removePdf" type="button" class="text-rose-500 hover:text-rose-700 shrink-0 ml-1"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                    <span v-else class="text-[11px] text-slate-400 truncate">未添付（エージェントの求人票等）</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Basic Fields Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label class="block text-xs font-bold text-slate-700 mb-1">企業名 <span class="text-rose-500">*</span></label>
                 <input v-model="editingJob.company" type="text" placeholder="例: 株式会社テック" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white text-xs outline-none" />
@@ -674,14 +799,14 @@
             </div>
 
             <!-- Next Schedule Info -->
-            <div class="p-3.5 bg-indigo-50/50 border border-indigo-100 rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label class="block text-xs font-bold text-indigo-900 mb-1">次回選考日時 / 期限</label>
-                <input v-model="editingJob.nextDate" type="datetime-local" class="w-full px-3 py-1.5 bg-white border border-indigo-200 rounded-lg text-xs outline-none" />
+                <label class="block text-xs font-bold text-slate-700 mb-1">次回選考日時 / 期限</label>
+                <input v-model="editingJob.nextDate" type="datetime-local" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none" />
               </div>
               <div>
-                <label class="block text-xs font-bold text-indigo-900 mb-1">次回選考内容 / タイトル</label>
-                <input v-model="editingJob.nextEventTitle" type="text" placeholder="例: 2次面接（オンライン）、課題提出" class="w-full px-3 py-1.5 bg-white border border-indigo-200 rounded-lg text-xs outline-none" />
+                <label class="block text-xs font-bold text-slate-700 mb-1">次回選考内容 / タイトル</label>
+                <input v-model="editingJob.nextEventTitle" type="text" placeholder="例: 2次面接（オンライン）、適性検査" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs outline-none" />
               </div>
             </div>
 
@@ -696,19 +821,19 @@
               </div>
             </div>
 
-            <!-- 企業固有の志望動機・分析 -->
+            <!-- 企業固有の動機・リサーチメモ -->
             <div class="space-y-3 pt-2">
               <h4 class="text-xs font-bold uppercase tracking-wider text-indigo-600 flex items-center gap-1.5">
-                <i data-lucide="target" class="w-3.5 h-3.5"></i> 企業固有の動機・リサーチメモ
+                <i data-lucide="target" class="w-3.5 h-3.5"></i> 企業固有の志望動機 & リサーチメモ
               </h4>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-xs font-semibold text-slate-700 mb-1">なぜこの会社か（競合他社との違い・魅力）</label>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">なぜこの会社か（競合との差別化・魅力）</label>
                   <textarea v-model="editingJob.whyCompany" rows="3" placeholder="ビジネスモデル、技術力、カルチャーへの共感など" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:bg-white"></textarea>
                 </div>
                 <div>
                   <label class="block text-xs font-semibold text-slate-700 mb-1">気になるニュース・最新動向・IR情報</label>
-                  <textarea v-model="editingJob.recentNews" rows="3" placeholder="新製品リリース、資金調達、決算説明会のポイントなど" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:bg-white"></textarea>
+                  <textarea v-model="editingJob.recentNews" rows="3" placeholder="新製品、資金調達、決算説明会のポイントなど" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:bg-white"></textarea>
                 </div>
               </div>
             </div>
@@ -730,13 +855,12 @@
 
           </div>
 
-          <!-- TAB 2: 面接フェーズ別ログ & 逆質問構造化管理 -->
-          <div v-if="jobModalTab === 'interviews'" class="space-y-6">
-            
+          <!-- TAB 2: 面接フェーズ別ログ & 逆質問リスト -->
+          <div v-if="jobModalTab === 'interviews'" class="space-y-5">
             <div class="flex items-center justify-between bg-indigo-50/70 p-3 rounded-xl border border-indigo-100">
               <div>
                 <h4 class="text-xs font-bold text-indigo-900">面接フェーズ別 ログ・逆質問リスト</h4>
-                <p class="text-[11px] text-indigo-700">面接ごとに面接官情報、質問と回答、逆質問を構造化して保存します。</p>
+                <p class="text-[11px] text-indigo-700">面接官情報、質問と回答メモ、逆質問を構造化して保存します。</p>
               </div>
               <button 
                 @click="addInterviewPhase" 
@@ -744,25 +868,24 @@
                 class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl flex items-center gap-1 shadow-xs"
               >
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                <span>面接フェーズを追加</span>
+                <span>面接フェーズ追加</span>
               </button>
             </div>
 
-            <!-- Interviews Phases Loop -->
+            <!-- Interview Phases Loop -->
             <div v-if="editingJob.interviews && editingJob.interviews.length > 0" class="space-y-4">
               <div 
                 v-for="(phase, pIdx) in editingJob.interviews" 
                 :key="pIdx" 
                 class="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-2xs"
               >
-                <!-- Phase Header -->
-                <div class="p-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                <div class="p-3 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
                   <div class="flex items-center gap-2 flex-1 min-w-[200px]">
                     <input 
                       v-model="phase.phaseName" 
                       type="text" 
-                      placeholder="フェーズ名（例: 1次面接, カジュアル面談, 最終面接）" 
-                      class="font-bold text-xs sm:text-sm text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1 w-full max-w-[240px]"
+                      placeholder="フェーズ名（例: 1次面接, 最終面接）" 
+                      class="font-bold text-xs text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1 w-full max-w-[220px]"
                     />
                     <input 
                       v-model="phase.date" 
@@ -770,87 +893,77 @@
                       class="text-xs bg-white border border-slate-200 rounded-lg px-2 py-1 text-slate-600"
                     />
                   </div>
-                  <div class="flex items-center gap-2">
-                    <button 
-                      @click="removeInterviewPhase(pIdx)" 
-                      class="text-slate-400 hover:text-rose-600 text-xs flex items-center gap-1 p-1 rounded hover:bg-rose-50"
-                    >
-                      <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                      <span>この面接を削除</span>
-                    </button>
-                  </div>
+                  <button 
+                    @click="removeInterviewPhase(pIdx)" 
+                    class="text-slate-400 hover:text-rose-600 text-xs flex items-center gap-1 p-1 rounded hover:bg-rose-50"
+                  >
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                    <span>面接を削除</span>
+                  </button>
                 </div>
 
-                <!-- Phase Content -->
-                <div class="p-4 space-y-4 text-xs">
-                  
-                  <!-- 面接官情報 -->
-                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-50/70 p-2.5 rounded-xl border border-slate-100">
+                <div class="p-3.5 space-y-3.5 text-xs">
+                  <!-- 面接官 -->
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                     <div>
-                      <label class="block text-[10px] font-bold text-slate-500 mb-0.5">面接官 役職・部署</label>
-                      <input v-model="phase.interviewerRole" type="text" placeholder="例: エンジニアリングマネージャー" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
+                      <label class="block text-[10px] font-bold text-slate-500 mb-0.5">役職・部署</label>
+                      <input v-model="phase.interviewerRole" type="text" placeholder="例: EM / 部門長" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
                     </div>
                     <div>
-                      <label class="block text-[10px] font-bold text-slate-500 mb-0.5">面接官 氏名（任意）</label>
-                      <input v-model="phase.interviewerName" type="text" placeholder="例: 山田様 / 佐藤様" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
+                      <label class="block text-[10px] font-bold text-slate-500 mb-0.5">氏名</label>
+                      <input v-model="phase.interviewerName" type="text" placeholder="例: 山田様" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
                     </div>
                     <div>
-                      <label class="block text-[10px] font-bold text-slate-500 mb-0.5">印象・雰囲気・重視点</label>
-                      <input v-model="phase.interviewerNotes" type="text" placeholder="例: 論理性と組織貢献意識を重視" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
+                      <label class="block text-[10px] font-bold text-slate-500 mb-0.5">印象・重視点</label>
+                      <input v-model="phase.interviewerNotes" type="text" placeholder="例: 論理性と組織貢献を重視" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
                     </div>
                   </div>
 
-                  <!-- 質問 & 回答ログ -->
+                  <!-- 質問&回答 -->
                   <div class="space-y-2">
                     <div class="flex items-center justify-between">
                       <span class="font-bold text-slate-700 flex items-center gap-1">
                         <i data-lucide="help-circle" class="w-3.5 h-3.5 text-indigo-600"></i> 聞かれた質問 & 自身の回答メモ
                       </span>
-                      <button @click="addQAItem(phase)" class="text-indigo-600 font-bold hover:underline text-[11px]">+ 質問を追加</button>
+                      <button @click="addQAItem(phase)" class="text-indigo-600 font-bold hover:underline text-[11px]">+ 質問追加</button>
                     </div>
 
                     <div class="space-y-2">
                       <div 
                         v-for="(qa, qIdx) in phase.qaList" 
                         :key="qIdx" 
-                        class="p-2.5 bg-slate-50/80 rounded-xl border border-slate-200 space-y-1.5 relative group"
+                        class="p-2 bg-slate-50 rounded-xl border border-slate-200 space-y-1.5 relative"
                       >
                         <div class="flex items-center justify-between gap-2">
-                          <input v-model="qa.question" type="text" placeholder="質問: なぜ現職を転職しようと考えたのか？" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg font-bold text-slate-800 text-xs" />
+                          <input v-model="qa.question" type="text" placeholder="質問: なぜ現職を転職するのか？" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg font-bold text-slate-800 text-xs" />
                           <button @click="phase.qaList.splice(qIdx, 1)" class="text-slate-400 hover:text-rose-500 p-1"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                         </div>
-                        <textarea v-model="qa.answer" rows="2" placeholder="回答・深掘りされた点: ○○の課題に対して自ら提案したが、技術的制約があり..." class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-slate-700 text-xs"></textarea>
-                      </div>
-                      <div v-if="!phase.qaList || phase.qaList.length === 0" class="text-center py-2 text-slate-400 text-xs">
-                        質問ログが未登録です
+                        <textarea v-model="qa.answer" rows="2" placeholder="回答・深掘り内容メモ..." class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-slate-700 text-xs"></textarea>
                       </div>
                     </div>
                   </div>
 
-                  <!-- 逆質問 & 回答メモ -->
+                  <!-- 逆質問 -->
                   <div class="space-y-2 pt-2 border-t border-slate-100">
                     <div class="flex items-center justify-between">
                       <span class="font-bold text-slate-700 flex items-center gap-1">
-                        <i data-lucide="message-square" class="w-3.5 h-3.5 text-emerald-600"></i> この面接用の逆質問 & 回答ログ
+                        <i data-lucide="message-square" class="w-3.5 h-3.5 text-emerald-600"></i> 用意した逆質問 & 回答メモ
                       </span>
-                      <button @click="addReverseQItem(phase)" class="text-emerald-600 font-bold hover:underline text-[11px]">+ 逆質問を追加</button>
+                      <button @click="addReverseQItem(phase)" class="text-emerald-600 font-bold hover:underline text-[11px]">+ 逆質問追加</button>
                     </div>
 
                     <div class="space-y-2">
                       <div 
                         v-for="(rq, rIdx) in phase.reverseQuestions" 
                         :key="rIdx" 
-                        class="p-2.5 bg-emerald-50/30 rounded-xl border border-emerald-100 space-y-1.5 relative"
+                        class="p-2 bg-emerald-50/30 rounded-xl border border-emerald-100 space-y-1.5"
                       >
                         <div class="flex items-center justify-between gap-2">
-                          <input v-model="rq.question" type="text" placeholder="逆質問: チーム内で現在最も挑戦している技術テーマは？" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg font-bold text-slate-800 text-xs" />
-                          <input v-model="rq.respondent" type="text" placeholder="回答者（例: EM山田氏）" class="w-40 p-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
+                          <input v-model="rq.question" type="text" placeholder="逆質問: チームの直近の技術的課題は？" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg font-bold text-slate-800 text-xs" />
+                          <input v-model="rq.respondent" type="text" placeholder="回答者" class="w-32 p-1.5 bg-white border border-slate-200 rounded-lg text-xs" />
                           <button @click="phase.reverseQuestions.splice(rIdx, 1)" class="text-slate-400 hover:text-rose-500 p-1"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                         </div>
-                        <textarea v-model="rq.answer" rows="2" placeholder="面接官からの回答メモ: ○○のマイクロサービス移行を来期推進予定で、アーキテクトを求めているとのこと。" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-slate-700 text-xs"></textarea>
-                      </div>
-                      <div v-if="!phase.reverseQuestions || phase.reverseQuestions.length === 0" class="text-center py-2 text-slate-400 text-xs">
-                        逆質問が未登録です（5〜10個準備推奨）
+                        <textarea v-model="rq.answer" rows="2" placeholder="面接官からの回答メモ..." class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-slate-700 text-xs"></textarea>
                       </div>
                     </div>
                   </div>
@@ -859,11 +972,10 @@
               </div>
             </div>
 
-            <div v-else class="text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+            <div v-else class="text-center py-6 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
               <p class="text-slate-500 text-xs mb-2">まだ面接ログが登録されていません</p>
               <button @click="addInterviewPhase" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold">1次面接のログを作成</button>
             </div>
-
           </div>
 
         </div>
@@ -895,260 +1007,258 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- MODAL 2: 「面接直前カンペモード」超進化版 (Cheat Sheet HUD)                    -->
+    <!-- MODAL 2: 「面接カンペモード」刷新版（Web面接 画面半分分割 & 検索特化UI）       -->
     <!-- ========================================================================= -->
-    <div v-if="isCheatSheetOpen" class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-4 bg-slate-950/85 backdrop-blur-md overflow-hidden">
-      <div class="bg-[#0f172a] text-slate-100 w-full sm:max-w-5xl h-full sm:h-[94vh] sm:rounded-2xl flex flex-col shadow-2xl border border-slate-800 overflow-hidden">
+    <div v-if="isCheatSheetOpen" class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-2 bg-slate-950/85 backdrop-blur-md overflow-hidden">
+      <div class="bg-[#0f172a] text-slate-100 w-full h-full sm:max-w-7xl sm:h-[96vh] sm:rounded-2xl flex flex-col shadow-2xl border border-slate-800 overflow-hidden">
         
         <!-- Header -->
-        <div class="px-4 sm:px-6 py-3.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/90 shrink-0">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-              <i data-lucide="zap" class="w-5 h-5 text-amber-400 animate-pulse"></i>
+        <div class="px-3.5 sm:px-5 py-2.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/95 shrink-0">
+          <div class="flex items-center gap-2 min-w-0">
+            <div class="w-7 h-7 rounded-lg bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-amber-400 shrink-0">
+              <i data-lucide="zap" class="w-4 h-4"></i>
             </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-amber-400/10 text-amber-400 border border-amber-400/20">
-                  面接直前カンペモード
-                </span>
-                <span v-if="activeCheatJob.nextDate" class="text-xs text-slate-400 font-semibold">
-                  {{ formatDisplayDate(activeCheatJob.nextDate) }}
-                </span>
-              </div>
-              <h2 class="text-base sm:text-lg font-extrabold text-white mt-0.5 truncate max-w-[280px] sm:max-w-md">
-                {{ activeCheatJob.company }}
-                <span class="text-xs font-normal text-indigo-300 ml-2">/ {{ activeCheatJob.position }}</span>
+            <div class="truncate">
+              <h2 class="text-sm sm:text-base font-extrabold text-white truncate flex items-center gap-2">
+                <span>{{ activeCheatJob.company }}</span>
+                <span class="text-xs font-normal text-indigo-300 truncate hidden sm:inline">{{ activeCheatJob.position }}</span>
               </h2>
             </div>
           </div>
 
-          <!-- Master vs Company Scope Toggle -->
-          <div class="flex items-center gap-2">
-            <div class="flex items-center bg-slate-800 p-1 rounded-xl border border-slate-700 text-xs font-bold">
-              <button 
-                @click="cheatScope = 'company'"
-                :class="cheatScope === 'company' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-slate-200'"
-                class="px-2.5 py-1 rounded-lg transition-all"
-              >
-                企業メモ
-              </button>
-              <button 
-                @click="cheatScope = 'master'"
-                :class="cheatScope === 'master' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-slate-200'"
-                class="px-2.5 py-1 rounded-lg transition-all flex items-center gap-1"
-              >
-                <i data-lucide="book-open" class="w-3 h-3"></i>
-                <span>共通ネタ帳</span>
-              </button>
-            </div>
+          <!-- Quick Action Buttons on HUD Header -->
+          <div class="flex items-center gap-1.5 shrink-0">
+            <!-- Open PDF Button -->
+            <button 
+              v-if="activeCheatJob.pdfBase64" 
+              @click="openPdfPreview(activeCheatJob)" 
+              class="px-2.5 py-1 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+              title="求人票PDFを開く"
+            >
+              <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">求人票PDF</span>
+            </button>
 
-            <button @click="isCheatSheetOpen = false" class="p-2 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl">
-              <i data-lucide="x" class="w-5 h-5"></i>
+            <!-- Open Job URL -->
+            <a 
+              v-if="activeCheatJob.url" 
+              :href="activeCheatJob.url" 
+              target="_blank" 
+              class="px-2.5 py-1 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/30 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+            >
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              <span class="hidden sm:inline">求人リンク</span>
+            </a>
+
+            <button @click="isCheatSheetOpen = false" class="p-1.5 text-slate-400 hover:text-white bg-slate-800 rounded-lg">
+              <i data-lucide="x" class="w-4 h-4"></i>
             </button>
           </div>
         </div>
 
-        <!-- Section Navigation Bar (Jump Tabs) -->
-        <div class="px-4 sm:px-6 py-2 bg-slate-900 border-b border-slate-800/80 flex items-center gap-1.5 overflow-x-auto shrink-0 text-xs font-semibold">
-          <button 
-            @click="cheatSection = 'all'" 
-            :class="cheatSection === 'all' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' : 'text-slate-400 hover:bg-slate-800'"
-            class="px-3 py-1 rounded-lg transition-colors shrink-0"
-          >
-            すべて表示
-          </button>
-          <button 
-            @click="cheatSection = 'axis'" 
-            :class="cheatSection === 'axis' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' : 'text-slate-400 hover:bg-slate-800'"
-            class="px-3 py-1 rounded-lg transition-colors shrink-0"
-          >
-            1. 軸・志望度
-          </button>
-          <button 
-            @click="cheatSection = 'motive'" 
-            :class="cheatSection === 'motive' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' : 'text-slate-400 hover:bg-slate-800'"
-            class="px-3 py-1 rounded-lg transition-colors shrink-0"
-          >
-            2. 志望動機・企業理解
-          </button>
-          <button 
-            @click="cheatSection = 'star'" 
-            :class="cheatSection === 'star' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' : 'text-slate-400 hover:bg-slate-800'"
-            class="px-3 py-1 rounded-lg transition-colors shrink-0"
-          >
-            3. 主要エピソード(STAR)
-          </button>
-          <button 
-            @click="cheatSection = 'interviews'" 
-            :class="cheatSection === 'interviews' ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' : 'text-slate-400 hover:bg-slate-800'"
-            class="px-3 py-1 rounded-lg transition-colors shrink-0"
-          >
-            4. 面接ログ & 逆質問
-          </button>
+        <!-- In-Interview Quick Search Bar -->
+        <div class="px-3.5 sm:px-5 py-2 bg-slate-900 border-b border-slate-800 flex items-center gap-2 shrink-0">
+          <div class="relative flex-1">
+            <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input 
+              v-model="cheatSearchQuery" 
+              type="text" 
+              placeholder="質問キーワードで即座にカンペ検索（例: 退職理由, 障害対応, 強み）..." 
+              class="w-full pl-8 pr-8 py-1.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+            />
+            <button 
+              v-if="cheatSearchQuery" 
+              @click="cheatSearchQuery = ''" 
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 text-xs"
+            >
+              ✕
+            </button>
+          </div>
+          <span class="text-[10px] text-slate-500 hidden md:inline">面接中の画面半分配置に最適化中</span>
         </div>
 
-        <!-- Cheat HUD Body -->
-        <div class="px-4 sm:px-8 py-5 overflow-y-auto space-y-6 flex-1 text-sm dark-scrollbar">
+        <!-- Two-Pane Layout (Side-by-Side on PC, Stacked on narrow split/mobile) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-800 flex-1 overflow-y-auto dark-scrollbar">
           
-          <!-- SCOPE 1: COMPANY-SPECIFIC CHEAT SHEET -->
-          <div v-if="cheatScope === 'company'" class="space-y-6">
-
-            <!-- SECTION 1: 軸・志望方針 -->
-            <section v-if="cheatSection === 'all' || cheatSection === 'axis'" class="space-y-2.5">
-              <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                <i data-lucide="sparkles" class="w-4 h-4"></i> 【1】この企業で叶える転職の軸
+          <!-- LEFT PANE: 企業固有のメモ（志望動機・ニュース・面接ログ・逆質問） -->
+          <div class="p-3.5 sm:p-5 space-y-4 overflow-y-auto dark-scrollbar">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+              <h3 class="text-xs font-extrabold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="building" class="w-4 h-4"></i> 企業固有メモ & 逆質問
               </h3>
-              <div class="p-3.5 rounded-xl bg-slate-900/80 border border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div 
+              <span class="text-[10px] text-slate-400">この会社専用</span>
+            </div>
+
+            <!-- 軸マッチ状況 -->
+            <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
+              <span class="text-[10px] font-bold text-amber-400 block">転職の軸マッチ</span>
+              <div class="flex flex-wrap gap-1">
+                <span 
                   v-for="(axis, idx) in axes" 
                   :key="idx" 
-                  class="text-xs flex items-center gap-2 p-1.5 rounded-lg"
-                  :class="activeCheatJob.matchedAxes && activeCheatJob.matchedAxes.includes(idx) ? 'bg-amber-400/10 text-amber-200 font-bold border border-amber-400/20' : 'text-slate-500'"
+                  class="text-[10px] px-2 py-0.5 rounded-md font-semibold"
+                  :class="activeCheatJob.matchedAxes && activeCheatJob.matchedAxes.includes(idx) ? 'bg-amber-400/10 text-amber-200 border border-amber-400/30' : 'bg-slate-800 text-slate-500 line-through'"
                 >
-                  <span>{{ activeCheatJob.matchedAxes && activeCheatJob.matchedAxes.includes(idx) ? '🔥 MATCH' : '⚪' }}</span>
-                  <span>{{ axis }}</span>
-                </div>
+                  {{ axis }}
+                </span>
               </div>
-            </section>
+            </div>
 
-            <!-- SECTION 2: 志望動機・企業理解 -->
-            <section v-if="cheatSection === 'all' || cheatSection === 'motive'" class="space-y-3">
-              <h3 class="text-xs font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
-                <i data-lucide="target" class="w-4 h-4"></i> 【2】志望動機サマリー・企業独自メモ
-              </h3>
-              
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div class="p-4 rounded-xl bg-indigo-950/30 border border-indigo-800/40 space-y-1.5">
-                  <span class="text-xs font-bold text-indigo-300 block">なぜこの会社か（競合との差別化・惹かれている点）</span>
-                  <div class="text-slate-200 whitespace-pre-wrap leading-relaxed text-xs sm:text-sm">
-                    {{ activeCheatJob.whyCompany || activeCheatJob.motivationNote || '（志望動機が未入力です）' }}
-                  </div>
-                </div>
+            <!-- 志望動機サマリー -->
+            <div class="p-3 rounded-xl bg-indigo-950/30 border border-indigo-800/40 space-y-1">
+              <span class="text-xs font-bold text-indigo-300 block">なぜこの会社か（差別化・共感ポイント）</span>
+              <p class="text-xs text-slate-200 whitespace-pre-wrap leading-relaxed">
+                {{ activeCheatJob.whyCompany || '（志望動機メモが未入力です）' }}
+              </p>
+            </div>
 
-                <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 space-y-1.5">
-                  <span class="text-xs font-bold text-slate-400 block">気になるニュース・最新リリース・IRメモ</span>
-                  <div class="text-slate-300 whitespace-pre-wrap leading-relaxed text-xs">
-                    {{ activeCheatJob.recentNews || '（ニュース・IRメモ未入力）' }}
-                  </div>
-                </div>
-              </div>
-            </section>
+            <!-- 最新ニュース & 特記事項 -->
+            <div v-if="activeCheatJob.recentNews" class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+              <span class="text-[11px] font-bold text-slate-400 block">気になるニュース・IR</span>
+              <p class="text-xs text-slate-300 whitespace-pre-wrap leading-relaxed">{{ activeCheatJob.recentNews }}</p>
+            </div>
 
-            <!-- SECTION 3: 主要エピソード (STAR) -->
-            <section v-if="cheatSection === 'all' || cheatSection === 'star'" class="space-y-3">
-              <div class="flex items-center justify-between">
-                <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <i data-lucide="layers" class="w-4 h-4"></i> 【3】主要エピソード（STAR一覧）
-                </h3>
-                <span class="text-[11px] text-slate-400">共通ネタ帳より抜粋</span>
-              </div>
+            <!-- 面接ログ & 用意した逆質問 -->
+            <div class="space-y-3 pt-1">
+              <h4 class="text-xs font-bold text-sky-400 flex items-center gap-1">
+                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> 各面接ログ & 逆質問リスト
+              </h4>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <div 
-                  v-for="(ep, eIdx) in masterData.episodes" 
-                  :key="eIdx" 
-                  class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2"
-                >
-                  <h4 class="font-bold text-slate-100 text-xs sm:text-sm text-emerald-300">{{ ep.title || 'エピソード ' + (eIdx+1) }}</h4>
-                  <div class="space-y-1.5 text-xs">
-                    <p class="text-slate-300"><strong class="text-slate-400">【課題】:</strong> {{ ep.task }}</p>
-                    <p class="text-slate-200"><strong class="text-emerald-400">【行動】:</strong> {{ ep.action }}</p>
-                    <p class="text-amber-200"><strong class="text-amber-400">【成果】:</strong> {{ ep.result }}</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <!-- SECTION 4: 面接ログ & 用意した逆質問 -->
-            <section v-if="cheatSection === 'all' || cheatSection === 'interviews'" class="space-y-3">
-              <h3 class="text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
-                <i data-lucide="message-circle" class="w-4 h-4"></i> 【4】各面接ログ & 逆質問カンペ
-              </h3>
-
-              <div v-if="activeCheatJob.interviews && activeCheatJob.interviews.length > 0" class="space-y-4">
+              <div v-if="activeCheatJob.interviews && activeCheatJob.interviews.length > 0" class="space-y-3">
                 <div 
                   v-for="(phase, pIdx) in activeCheatJob.interviews" 
                   :key="pIdx" 
-                  class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3"
+                  class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2"
                 >
-                  <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                    <span class="font-bold text-slate-200 text-sm text-sky-300">{{ phase.phaseName }}</span>
-                    <span class="text-xs text-slate-400">{{ phase.date }}</span>
+                  <div class="flex items-center justify-between border-b border-slate-800 pb-1">
+                    <span class="font-bold text-xs text-sky-300">{{ phase.phaseName }}</span>
+                    <span class="text-[10px] text-slate-400">{{ phase.date }}</span>
                   </div>
 
-                  <!-- 面接官メモ -->
-                  <div v-if="phase.interviewerRole || phase.interviewerNotes" class="text-xs text-slate-400 bg-slate-950/60 p-2.5 rounded-lg">
-                    <span class="font-bold text-slate-300">面接官: {{ phase.interviewerRole }} {{ phase.interviewerName }}</span>
-                    <p class="mt-0.5 text-slate-400">{{ phase.interviewerNotes }}</p>
+                  <!-- 面接官 -->
+                  <div v-if="phase.interviewerRole || phase.interviewerName" class="text-[11px] text-slate-300 bg-slate-950/70 p-2 rounded-lg">
+                    <span class="font-bold text-slate-200">面接官: {{ phase.interviewerRole }} {{ phase.interviewerName }}</span>
+                    <p class="text-[10px] text-slate-400 mt-0.5">{{ phase.interviewerNotes }}</p>
                   </div>
 
-                  <!-- 逆質問リスト（回答メモ入力可能） -->
-                  <div class="space-y-2">
-                    <span class="text-xs font-bold text-emerald-400 block">用意した逆質問リスト（回答メモを入力可能）</span>
-                    <div 
-                      v-for="(rq, rIdx) in phase.reverseQuestions" 
-                      :key="rIdx" 
-                      class="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5"
-                    >
+                  <!-- 逆質問 -->
+                  <div v-if="phase.reverseQuestions && phase.reverseQuestions.length > 0" class="space-y-1.5">
+                    <span class="text-[11px] font-bold text-emerald-400 block">用意した逆質問</span>
+                    <div v-for="(rq, rIdx) in phase.reverseQuestions" :key="rIdx" class="p-2 bg-slate-950 rounded-lg border border-slate-800/80 space-y-1">
                       <p class="text-xs font-bold text-slate-200">Q. {{ rq.question }}</p>
                       <textarea 
                         v-model="rq.answer" 
-                        rows="2" 
-                        placeholder="面接官の回答メモをここにメモ..." 
-                        class="w-full p-2 bg-slate-900 border border-slate-800 rounded-lg text-xs text-slate-200 focus:border-indigo-500 outline-none"
+                        rows="1" 
+                        placeholder="回答メモ..." 
+                        class="w-full p-1 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 outline-none"
                       ></textarea>
                     </div>
                   </div>
 
-                  <!-- 聞かれた質問メモ -->
-                  <div v-if="phase.qaList && phase.qaList.length > 0" class="space-y-1.5 pt-2 border-t border-slate-800/80">
-                    <span class="text-xs font-bold text-slate-400 block">過去に聞かれた質問 & 回答</span>
-                    <div v-for="(qa, qIdx) in phase.qaList" :key="qIdx" class="text-xs p-2 rounded-lg bg-slate-950/50">
-                      <p class="font-semibold text-slate-300">問: {{ qa.question }}</p>
+                  <!-- 過去質問 -->
+                  <div v-if="phase.qaList && phase.qaList.length > 0" class="space-y-1 pt-1 border-t border-slate-800/60 text-xs">
+                    <span class="text-[10px] font-bold text-slate-400 block">聞かれた質問メモ</span>
+                    <div v-for="(qa, qIdx) in phase.qaList" :key="qIdx" class="text-[11px] p-1.5 rounded bg-slate-950/50">
+                      <p class="text-slate-300 font-semibold">問: {{ qa.question }}</p>
                       <p class="text-slate-400 mt-0.5">答: {{ qa.answer }}</p>
                     </div>
                   </div>
-
                 </div>
               </div>
-
-              <div v-else class="p-6 text-center text-xs text-slate-500 bg-slate-900/50 rounded-xl border border-slate-800">
-                面接ログが登録されていません。求人編集画面の「面接ログ」タブから逆質問や面接官情報を追加してください。
-              </div>
-            </section>
+              <div v-else class="text-xs text-slate-500 text-center py-2">面接ログ未登録</div>
+            </div>
 
           </div>
 
-          <!-- SCOPE 2: MASTER STORY HUD VIEW -->
-          <div v-if="cheatScope === 'master'" class="space-y-5">
-            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-              <h4 class="text-xs font-bold text-indigo-400">1分自己紹介サマリー</h4>
-              <p class="text-xs sm:text-sm text-slate-200 whitespace-pre-wrap leading-relaxed">{{ masterData.selfIntro || '未入力' }}</p>
+          <!-- RIGHT PANE: 共通ネタ帳（自己PR・想定Q&A・STARエピソード） -->
+          <div class="p-3.5 sm:p-5 space-y-4 overflow-y-auto dark-scrollbar bg-slate-950/30">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
+              <h3 class="text-xs font-extrabold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                <i data-lucide="book-open" class="w-4 h-4"></i> 共通ネタ帳（Q&A・STAR・自己PR）
+              </h3>
+              <span class="text-[10px] text-slate-400">全社共通マスター</span>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-                <h4 class="text-xs font-bold text-emerald-400">共通の強み・弱み</h4>
-                <p class="text-xs text-slate-200 whitespace-pre-wrap leading-relaxed">{{ masterData.strengthsWeaknesses || '未入力' }}</p>
+            <!-- 自己紹介サマリー -->
+            <div v-if="!cheatSearchQuery" class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
+              <span class="text-xs font-bold text-indigo-300 block">1分自己紹介サマリー</span>
+              <p class="text-xs text-slate-200 whitespace-pre-wrap leading-relaxed">{{ masterData.selfIntro }}</p>
+            </div>
+
+            <!-- 想定質問＆回答 (Q&Aリスト - 検索対応) -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                  <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> 想定Q&A
+                </span>
+                <span class="text-[10px] text-slate-400">{{ filteredMasterQA.length }} 件</span>
               </div>
-              <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-                <h4 class="text-xs font-bold text-amber-400">キャリアビジョン（3・5・10年）</h4>
-                <p class="text-xs text-slate-200 whitespace-pre-wrap leading-relaxed">{{ masterData.careerVision || '未入力' }}</p>
+
+              <div class="space-y-2">
+                <div 
+                  v-for="(qa, qIdx) in filteredMasterQA" 
+                  :key="qIdx" 
+                  class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1"
+                >
+                  <div class="flex items-center justify-between gap-1">
+                    <span v-if="qa.tag" class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/40">
+                      {{ qa.tag }}
+                    </span>
+                    <p class="text-xs font-bold text-slate-100 flex-1 truncate">{{ qa.question }}</p>
+                  </div>
+                  <p class="text-xs text-slate-300 whitespace-pre-wrap leading-relaxed pt-0.5">{{ qa.answer }}</p>
+                </div>
+                <div v-if="filteredMasterQA.length === 0" class="text-xs text-slate-500 text-center py-2">
+                  該当する想定Q&Aはありません
+                </div>
               </div>
             </div>
 
-            <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
-              <h4 class="text-xs font-bold text-violet-400">定番逆質問ストック</h4>
-              <p class="text-xs text-slate-200 whitespace-pre-wrap leading-relaxed">{{ masterData.commonReverseQuestions || '未入力' }}</p>
+            <!-- STARエピソード集 (検索対応) -->
+            <div class="space-y-2 pt-2 border-t border-slate-800/80">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
+                  <i data-lucide="layers" class="w-3.5 h-3.5"></i> STARエピソード集
+                </span>
+                <span class="text-[10px] text-slate-400">{{ filteredMasterEpisodes.length }} 件</span>
+              </div>
+
+              <div class="space-y-2.5">
+                <div 
+                  v-for="(ep, eIdx) in filteredMasterEpisodes" 
+                  :key="eIdx" 
+                  class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5"
+                >
+                  <h5 class="font-bold text-xs text-amber-300">{{ ep.title }}</h5>
+                  <div class="space-y-1 text-xs">
+                    <p class="text-slate-400"><strong class="text-slate-300">【課題】:</strong> {{ ep.task }}</p>
+                    <p class="text-slate-200"><strong class="text-indigo-400">【行動】:</strong> {{ ep.action }}</p>
+                    <p class="text-emerald-300"><strong class="text-emerald-400">【成果】:</strong> {{ ep.result }}</p>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <!-- 強み弱み & 定番逆質問 -->
+            <div v-if="!cheatSearchQuery" class="space-y-2 pt-2 border-t border-slate-800/80 text-xs">
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                <span class="text-[10px] font-bold text-slate-400 block mb-0.5">共通の強み・弱み</span>
+                <p class="text-slate-300 whitespace-pre-wrap leading-relaxed">{{ masterData.strengthsWeaknesses }}</p>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                <span class="text-[10px] font-bold text-violet-400 block mb-0.5">定番逆質問ストック</span>
+                <p class="text-slate-300 whitespace-pre-wrap leading-relaxed">{{ masterData.commonReverseQuestions }}</p>
+              </div>
+            </div>
+
           </div>
 
         </div>
 
         <!-- Footer -->
-        <div class="px-6 py-3 bg-slate-900 border-t border-slate-800 flex items-center justify-between shrink-0">
-          <span class="text-xs text-slate-400">自身を持って、笑顔で堂々と！ 🚀</span>
-          <button @click="isCheatSheetOpen = false" class="px-5 py-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all">
+        <div class="px-4 py-2.5 bg-slate-900 border-t border-slate-800 flex items-center justify-between shrink-0">
+          <span class="text-xs text-slate-400">自信を持って、結論ファーストで！ 🚀</span>
+          <button @click="isCheatSheetOpen = false" class="px-4 py-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all">
             閉じる
           </button>
         </div>
@@ -1160,7 +1270,7 @@
     <!-- MODAL 3: 転職の軸 編集モーダル                                             -->
     <!-- ========================================================================= -->
     <div v-if="isAxesModalOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-      <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
+      <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-200">
         <div class="flex items-center justify-between mb-3">
           <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
             <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i> 転職の軸の管理
@@ -1170,9 +1280,7 @@
           </button>
         </div>
 
-        <p class="text-xs text-slate-500 mb-4">
-          絶対に妥協したくない条件や価値観を3〜5個設定します。
-        </p>
+        <p class="text-xs text-slate-500 mb-4">絶対に妥協したくない条件や価値観を3〜5個設定します。</p>
 
         <div class="space-y-2 mb-4 max-h-60 overflow-y-auto">
           <div v-for="(axis, index) in tempAxes" :key="index" class="flex items-center gap-2">
@@ -1202,7 +1310,7 @@
       <div class="bg-white rounded-2xl max-w-lg w-full p-5 sm:p-6 shadow-2xl border border-slate-200 my-auto">
         <div class="flex items-center justify-between mb-3">
           <h3 class="font-bold text-base text-slate-900 flex items-center gap-2">
-            <i data-lucide="cloud" class="w-5 h-5 text-indigo-600"></i> データバックアップ & 端末間同期
+            <i data-lucide="cloud" class="w-5 h-5 text-indigo-600"></i> データ同期 & バックアップ
           </h3>
           <button @click="isSyncModalOpen = false" class="p-1 text-slate-400 hover:text-slate-700">
             <i data-lucide="x" class="w-5 h-5"></i>
@@ -1210,13 +1318,12 @@
         </div>
 
         <p class="text-xs text-slate-500 mb-4 leading-relaxed">
-          GitHub Pages運用時は、端末ごとにLocalStorageが独立しています。PCとスマホ間でデータを移す際は、以下の「ワンタップコピー」またはJSONファイルをご利用ください。
+          GitHub Pages運用時は、端末ごとにLocalStorageが独立しています。PCとスマホ間でデータを同期する際は「ワンタップ全コピー」またはJSONファイルをご利用ください。
         </p>
 
-        <div class="space-y-3.5">
-          <!-- Quick Clipboard Copy -->
+        <div class="space-y-3">
           <div class="p-3 bg-indigo-50/70 border border-indigo-100 rounded-xl space-y-2">
-            <span class="text-xs font-bold text-indigo-900 block">① クリップボード経由のクイック同期（おすすめ）</span>
+            <span class="text-xs font-bold text-indigo-900 block">① クリップボード経由のクイック同期（推奨）</span>
             <div class="flex gap-2">
               <button 
                 @click="copyDataToClipboard" 
@@ -1233,24 +1340,22 @@
               </button>
             </div>
             
-            <!-- Paste Textarea -->
             <div v-if="showPasteArea" class="pt-2 space-y-2">
               <textarea 
                 v-model="pasteJsonText" 
                 rows="3" 
-                placeholder="コピーしたJSONテキストをここに貼り付けてください..." 
+                placeholder="コピーしたJSONテキストを貼り付けてください..." 
                 class="w-full p-2 text-[10px] font-mono bg-white border border-indigo-200 rounded-lg outline-none"
               ></textarea>
               <button 
                 @click="importFromText" 
                 class="w-full py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg"
               >
-                テキストからデータを復元
+                テキストから復元実行
               </button>
             </div>
           </div>
 
-          <!-- File Download / Upload -->
           <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
             <span class="text-xs font-bold text-slate-700 block">② JSONファイルでの保存・読込</span>
             <div class="grid grid-cols-2 gap-2">
@@ -1264,7 +1369,6 @@
             </div>
           </div>
 
-          <!-- Sample Reload -->
           <button 
             @click="loadSampleData" 
             class="w-full py-1.5 text-slate-400 hover:text-slate-600 text-xs text-center block"
@@ -1302,6 +1406,18 @@
       strengthsWeaknesses: "【強み】複雑な要件をステークホルダー間で整理し、技術仕様へと落とし込む推進力・構造化スキル。\n【弱み】完璧を期すあまり初速が慎重になる傾向があるため、まずはプロトタイプで早期合意を取る進め方を徹底しています。",
       careerVision: "【3年後】担当領域におけるトップアーキテクトとして国内大規模事例を牽引。\n【5年後】グローバル連携や新規事業の技術戦略を策定するリードポジション。",
       commonReverseQuestions: "・入社後3ヶ月で最も期待される成果や立ち振る舞いは？\n・現在チームが直面している最も大きな技術的課題と、それに対する組織の優先順位は？\n・御社で高く評価される人材の共通点は？",
+      qaList: [
+        {
+          tag: "転職理由",
+          question: "なぜ今、転職を考えられたのですか？",
+          answer: "現職ではインフラの安定運用・設計で一定の成果を残せました。一方で、よりビジネスの上流から顧客のアーキテクチャ全体をトランスフォーメーションする役割に挑戦したく転職を決意しました。"
+        },
+        {
+          tag: "スタンス",
+          question: "チーム内で意見が対立した時はどう対処しますか？",
+          answer: "感情論を排し、まずは共通のゴール（顧客価値・システム要件）に立ち返ります。双方の懸念点とメリットを可視化した比較表を作成し、客観的なデータに基づいて合意形成を図ります。"
+        }
+      ],
       episodes: [
         {
           title: "大規模システムのクラウド移行とダウンタイムゼロ実現",
@@ -1323,14 +1439,15 @@
         salary: '1,050万〜1,250万円',
         route: 'リファラル',
         url: 'https://example.com/job1',
+        pdfName: '',
+        pdfBase64: '',
         nextDate: '2026-08-20T14:00',
         nextEventTitle: '最終役員面接（対面）',
         matchedAxes: [0, 1, 2, 3],
         whyCompany: '業界最高峰のクラウド基盤とエンタープライズ顧客網。技術力だけでなくビジネスインパクトに直接コミットできる点に魅力を感じている。',
         recentNews: '2026年Q2に発表された生成AI統合エンタープライズクラウド基盤の大型アップデート。',
         customFields: [
-          { key: 'リモート頻度', value: '週3〜4日リモート可' },
-          { key: '福利厚生', value: '資格取得支援 年30万' }
+          { key: 'リモート頻度', value: '週3〜4日リモート可' }
         ],
         interviews: [
           {
@@ -1369,21 +1486,21 @@
         salary: '950万〜1,100万円',
         route: 'ビズリーチ',
         url: 'https://example.com/job2',
+        pdfName: '',
+        pdfBase64: '',
         nextDate: '2026-08-18T19:00',
         nextEventTitle: '1次面接（オンライン）',
         matchedAxes: [0, 2, 3],
         whyCompany: '急成長B2B SaaS基盤のSRE/IaC推進。組織の開発生産性を底上げしたい。',
         recentNews: 'シリーズCラウンドでの資金調達と海外展開の発表。',
-        customFields: [
-          { key: '開発環境', value: 'AWS, Terraform, Go' }
-        ],
+        customFields: [],
         interviews: [
           {
             phaseName: '1次面接',
             date: '2026-08-18',
             interviewerRole: 'VPoE / SREリーダー',
             interviewerName: '高橋様',
-            interviewerNotes: '技術スタックの合致度と、自走力を重視している印象。',
+            interviewerNotes: '技術スタックの合致度と自走力を重視している印象。',
             qaList: [],
             reverseQuestions: [
               { question: '現在のシステムの技術的負債で一番クリティカルな点は？', respondent: '', answer: '' }
@@ -1410,8 +1527,7 @@
         
         const isCheatSheetOpen = ref(false);
         const activeCheatJob = ref({});
-        const cheatScope = ref('company'); // 'company' | 'master'
-        const cheatSection = ref('all'); // 'all' | 'axis' | 'motive' | 'star' | 'interviews'
+        const cheatSearchQuery = ref('');
 
         const isAxesModalOpen = ref(false);
         const tempAxes = ref([]);
@@ -1422,9 +1538,9 @@
 
         let sortableInstances = [];
 
-        const STORAGE_KEY_JOBS = 'careerlog_jobs_v2';
-        const STORAGE_KEY_AXES = 'careerlog_axes_v2';
-        const STORAGE_KEY_MASTER = 'careerlog_master_v2';
+        const STORAGE_KEY_JOBS = 'careerlog_jobs_v3';
+        const STORAGE_KEY_AXES = 'careerlog_axes_v3';
+        const STORAGE_KEY_MASTER = 'careerlog_master_v3';
 
         const loadData = () => {
           try {
@@ -1434,7 +1550,14 @@
 
             jobs.value = savedJobs ? JSON.parse(savedJobs) : DEFAULT_JOBS;
             axes.value = savedAxes ? JSON.parse(savedAxes) : DEFAULT_AXES;
-            masterData.value = savedMaster ? JSON.parse(savedMaster) : DEFAULT_MASTER;
+            
+            if (savedMaster) {
+              const parsed = JSON.parse(savedMaster);
+              if (!parsed.qaList) parsed.qaList = DEFAULT_MASTER.qaList;
+              masterData.value = parsed;
+            } else {
+              masterData.value = DEFAULT_MASTER;
+            }
           } catch (e) {
             console.error('データ読み込みエラー:', e);
             jobs.value = DEFAULT_JOBS;
@@ -1444,9 +1567,13 @@
         };
 
         const saveData = () => {
-          localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobs.value));
-          localStorage.setItem(STORAGE_KEY_AXES, JSON.stringify(axes.value));
-          localStorage.setItem(STORAGE_KEY_MASTER, JSON.stringify(masterData.value));
+          try {
+            localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobs.value));
+            localStorage.setItem(STORAGE_KEY_AXES, JSON.stringify(axes.value));
+            localStorage.setItem(STORAGE_KEY_MASTER, JSON.stringify(masterData.value));
+          } catch (e) {
+            console.warn('LocalStorage保存容量エラーの可能性があります:', e);
+          }
         };
 
         watch([jobs, axes, masterData], saveData, { deep: true });
@@ -1518,6 +1645,30 @@
           return job.matchedAxes.length;
         };
 
+        // カンペモード内のクイック検索フィルター
+        const filteredMasterQA = computed(() => {
+          if (!masterData.value.qaList) return [];
+          if (!cheatSearchQuery.value.trim()) return masterData.value.qaList;
+          const q = cheatSearchQuery.value.toLowerCase();
+          return masterData.value.qaList.filter(item => 
+            (item.question && item.question.toLowerCase().includes(q)) ||
+            (item.answer && item.answer.toLowerCase().includes(q)) ||
+            (item.tag && item.tag.toLowerCase().includes(q))
+          );
+        });
+
+        const filteredMasterEpisodes = computed(() => {
+          if (!masterData.value.episodes) return [];
+          if (!cheatSearchQuery.value.trim()) return masterData.value.episodes;
+          const q = cheatSearchQuery.value.toLowerCase();
+          return masterData.value.episodes.filter(ep => 
+            (ep.title && ep.title.toLowerCase().includes(q)) ||
+            (ep.task && ep.task.toLowerCase().includes(q)) ||
+            (ep.action && ep.action.toLowerCase().includes(q)) ||
+            (ep.result && ep.result.toLowerCase().includes(q))
+          );
+        });
+
         // 求人モーダル操作
         const openJobModal = (job = null, defaultStatus = 'draft') => {
           jobModalTab.value = 'basic';
@@ -1526,6 +1677,8 @@
             if (!editingJob.value.matchedAxes) editingJob.value.matchedAxes = [];
             if (!editingJob.value.customFields) editingJob.value.customFields = [];
             if (!editingJob.value.interviews) editingJob.value.interviews = [];
+            if (!editingJob.value.pdfBase64) editingJob.value.pdfBase64 = '';
+            if (!editingJob.value.pdfName) editingJob.value.pdfName = '';
           } else {
             editingJob.value = {
               id: '',
@@ -1536,6 +1689,8 @@
               salary: '',
               route: '',
               url: '',
+              pdfName: '',
+              pdfBase64: '',
               nextDate: '',
               nextEventTitle: '',
               matchedAxes: [],
@@ -1599,6 +1754,46 @@
           editingJob.value.customFields.splice(index, 1);
         };
 
+        // PDF添付 & 閲覧
+        const handlePdfUpload = (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+
+          if (file.size > 8 * 1024 * 1024) {
+            alert('PDFファイルのサイズが大きすぎます（推奨: 8MB以下）');
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = (uploadEvent) => {
+            editingJob.value.pdfBase64 = uploadEvent.target.result;
+            editingJob.value.pdfName = file.name;
+          };
+          reader.readAsDataURL(file);
+        };
+
+        const removePdf = () => {
+          editingJob.value.pdfBase64 = '';
+          editingJob.value.pdfName = '';
+        };
+
+        const openPdfPreview = (job) => {
+          if (!job.pdfBase64) return;
+          const pdfWindow = window.open("");
+          if (pdfWindow) {
+            pdfWindow.document.write(`
+              <html>
+                <head><title>${job.company} - 求人票PDF</title></head>
+                <body style="margin:0;padding:0;background:#333;">
+                  <iframe src="${job.pdfBase64}" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100vh;" allowfullscreen></iframe>
+                </body>
+              </html>
+            `);
+          } else {
+            alert('ポップアップがブロックされました。別タブ許可を有効にしてください。');
+          }
+        };
+
         // 面接フェーズ・構造化リスト操作
         const addInterviewPhase = () => {
           if (!editingJob.value.interviews) editingJob.value.interviews = [];
@@ -1633,7 +1828,24 @@
           triggerIconsUpdate();
         };
 
-        // STAR Master Episodes
+        // 共通ネタ帳: 想定Q&A
+        const addMasterQA = () => {
+          if (!masterData.value.qaList) masterData.value.qaList = [];
+          masterData.value.qaList.unshift({
+            tag: '頻出',
+            question: '',
+            answer: ''
+          });
+          triggerIconsUpdate();
+        };
+
+        const removeMasterQA = (index) => {
+          if (confirm('この想定Q&Aを削除しますか？')) {
+            masterData.value.qaList.splice(index, 1);
+          }
+        };
+
+        // 共通ネタ帳: STARエピソード
         const addMasterEpisode = () => {
           if (!masterData.value.episodes) masterData.value.episodes = [];
           masterData.value.episodes.push({
@@ -1655,8 +1867,7 @@
         // カンペモード
         const openCheatSheet = (job) => {
           activeCheatJob.value = job;
-          cheatScope.value = 'company';
-          cheatSection.value = 'all';
+          cheatSearchQuery.value = '';
           isCheatSheetOpen.value = true;
           triggerIconsUpdate();
         };
@@ -1686,7 +1897,7 @@
             axes: axes.value,
             jobs: jobs.value,
             masterData: masterData.value,
-            version: '2.0',
+            version: '3.0',
             exportDate: new Date().toISOString()
           };
         };
@@ -1695,9 +1906,9 @@
           try {
             const dataStr = JSON.stringify(getExportObject(), null, 2);
             await navigator.clipboard.writeText(dataStr);
-            alert('全データをクリップボードにコピーしました！\nスマホや他端末のアプリで「貼り付けて復元」を行ってください。');
+            alert('全データをクリップボードにコピーしました！\nスマホや別端末で「貼り付けて復元」を行ってください。');
           } catch (err) {
-            alert('コピーに失敗しました。ファイルエクスポートをご利用ください。');
+            alert('コピーに失敗しました。JSONファイルエクスポートをご利用ください。');
           }
         };
 
@@ -1707,7 +1918,7 @@
             const data = JSON.parse(pasteJsonText.value.trim());
             applyImportedData(data);
           } catch (e) {
-            alert('JSONデータの解析に失敗しました。正しい形式で貼り付けてください。');
+            alert('JSONデータの解析に失敗しました。形式をご確認ください。');
           }
         };
 
@@ -1836,6 +2047,8 @@
           axes,
           masterData,
           filteredJobs,
+          filteredMasterQA,
+          filteredMasterEpisodes,
           upcomingEvents,
           activeJobsCount,
           offerJobsCount,
@@ -1850,16 +2063,20 @@
           deleteJob,
           addCustomField,
           removeCustomField,
+          handlePdfUpload,
+          removePdf,
+          openPdfPreview,
           addInterviewPhase,
           removeInterviewPhase,
           addQAItem,
           addReverseQItem,
+          addMasterQA,
+          removeMasterQA,
           addMasterEpisode,
           removeMasterEpisode,
           isCheatSheetOpen,
           activeCheatJob,
-          cheatScope,
-          cheatSection,
+          cheatSearchQuery,
           openCheatSheet,
           isAxesModalOpen,
           tempAxes,
