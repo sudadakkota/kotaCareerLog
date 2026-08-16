@@ -1007,259 +1007,541 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- MODAL 2: 「面接カンペモード」刷新版（Web面接 画面半分分割 & 検索特化UI）       -->
+    <!-- MODAL 2: 「面接カンペモード」超進化版 (画面半分・視認性・ダーク/ライト対応)    -->
     <!-- ========================================================================= -->
-    <div v-if="isCheatSheetOpen" class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-2 bg-slate-950/85 backdrop-blur-md overflow-hidden">
-      <div class="bg-[#0f172a] text-slate-100 w-full h-full sm:max-w-7xl sm:h-[96vh] sm:rounded-2xl flex flex-col shadow-2xl border border-slate-800 overflow-hidden">
+    <div v-if="isCheatSheetOpen" class="fixed inset-0 z-50 flex items-center justify-center p-0 sm:p-2 bg-slate-950/80 backdrop-blur-md overflow-hidden">
+      <div 
+        :class="[
+          cheatTheme === 'dark' ? 'bg-[#0b0f19] text-slate-100 border-slate-800' : 'bg-white text-slate-900 border-slate-200 shadow-2xl',
+          'w-full h-full sm:max-w-5xl sm:h-[97vh] sm:rounded-2xl flex flex-col border overflow-hidden transition-colors duration-200'
+        ]"
+      >
         
-        <!-- Header -->
-        <div class="px-3.5 sm:px-5 py-2.5 border-b border-slate-800 flex items-center justify-between bg-slate-900/95 shrink-0">
+        <!-- Top Toolbar Header -->
+        <div 
+          :class="cheatTheme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-slate-50/95 border-slate-200'" 
+          class="px-3.5 sm:px-5 py-2.5 border-b flex items-center justify-between gap-2 shrink-0"
+        >
+          <!-- Company & Position Title -->
           <div class="flex items-center gap-2 min-w-0">
-            <div class="w-7 h-7 rounded-lg bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-amber-400 shrink-0">
+            <div class="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 shrink-0">
               <i data-lucide="zap" class="w-4 h-4"></i>
             </div>
             <div class="truncate">
-              <h2 class="text-sm sm:text-base font-extrabold text-white truncate flex items-center gap-2">
+              <h2 class="text-sm sm:text-base font-extrabold truncate flex items-center gap-2">
                 <span>{{ activeCheatJob.company }}</span>
-                <span class="text-xs font-normal text-indigo-300 truncate hidden sm:inline">{{ activeCheatJob.position }}</span>
+                <span :class="cheatTheme === 'dark' ? 'text-indigo-300' : 'text-indigo-600'" class="text-xs font-normal truncate hidden sm:inline">{{ activeCheatJob.position }}</span>
               </h2>
             </div>
           </div>
 
-          <!-- Quick Action Buttons on HUD Header -->
+          <!-- Actions & Theme / Font Controls -->
           <div class="flex items-center gap-1.5 shrink-0">
-            <!-- Open PDF Button -->
+            
+            <!-- Font Size Toggle (A- / A / A+) -->
+            <div 
+              :class="cheatTheme === 'dark' ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-white border-slate-200 text-slate-700'" 
+              class="flex items-center rounded-lg border p-0.5 text-xs font-bold"
+            >
+              <button 
+                @click="cheatFontSize = 'sm'" 
+                :class="cheatFontSize === 'sm' ? (cheatTheme === 'dark' ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-600') : ''"
+                class="px-1.5 py-0.5 rounded text-[11px] transition-colors"
+                title="文字サイズ: 小"
+              >
+                A-
+              </button>
+              <button 
+                @click="cheatFontSize = 'base'" 
+                :class="cheatFontSize === 'base' ? (cheatTheme === 'dark' ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-600') : ''"
+                class="px-1.5 py-0.5 rounded text-[11px] transition-colors"
+                title="文字サイズ: 標準"
+              >
+                A
+              </button>
+              <button 
+                @click="cheatFontSize = 'lg'" 
+                :class="cheatFontSize === 'lg' ? (cheatTheme === 'dark' ? 'bg-indigo-600 text-white' : 'bg-indigo-50 text-indigo-600') : ''"
+                class="px-1.5 py-0.5 rounded text-[11px] transition-colors"
+                title="文字サイズ: 大"
+              >
+                A+
+              </button>
+            </div>
+
+            <!-- Dark / Light Mode Toggle -->
+            <button 
+              @click="toggleCheatTheme" 
+              :class="cheatTheme === 'dark' ? 'bg-slate-800 text-amber-400 hover:bg-slate-700 border-slate-700' : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-200'"
+              class="px-2 py-1 rounded-lg border text-xs font-bold flex items-center gap-1 transition-colors"
+              title="ダーク/ライトモード切り替え"
+            >
+              <i :data-lucide="cheatTheme === 'dark' ? 'sun' : 'moon'" class="w-3.5 h-3.5"></i>
+              <span class="hidden md:inline">{{ cheatTheme === 'dark' ? 'ライト' : 'ダーク' }}</span>
+            </button>
+
+            <!-- PDF Link Button -->
             <button 
               v-if="activeCheatJob.pdfBase64" 
               @click="openPdfPreview(activeCheatJob)" 
-              class="px-2.5 py-1 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+              class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/30 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
               title="求人票PDFを開く"
             >
               <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-              <span class="hidden sm:inline">求人票PDF</span>
+              <span class="hidden sm:inline">PDF</span>
             </button>
 
-            <!-- Open Job URL -->
+            <!-- Job URL Link -->
             <a 
               v-if="activeCheatJob.url" 
               :href="activeCheatJob.url" 
               target="_blank" 
-              class="px-2.5 py-1 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/30 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
+              class="px-2 py-1 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-500 border border-indigo-500/30 rounded-lg text-xs font-bold flex items-center gap-1 transition-colors"
             >
               <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
-              <span class="hidden sm:inline">求人リンク</span>
+              <span class="hidden sm:inline">求人</span>
             </a>
 
-            <button @click="isCheatSheetOpen = false" class="p-1.5 text-slate-400 hover:text-white bg-slate-800 rounded-lg">
+            <!-- Close Button -->
+            <button 
+              @click="isCheatSheetOpen = false" 
+              :class="cheatTheme === 'dark' ? 'text-slate-400 hover:text-white bg-slate-800' : 'text-slate-500 hover:text-slate-800 bg-slate-100'"
+              class="p-1.5 rounded-lg transition-colors"
+            >
               <i data-lucide="x" class="w-4 h-4"></i>
             </button>
           </div>
         </div>
 
-        <!-- In-Interview Quick Search Bar -->
-        <div class="px-3.5 sm:px-5 py-2 bg-slate-900 border-b border-slate-800 flex items-center gap-2 shrink-0">
-          <div class="relative flex-1">
+        <!-- Sticky Quick Category Tabs Bar -->
+        <div 
+          :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'"
+          class="px-3 sm:px-5 py-1.5 border-b flex items-center gap-1 overflow-x-auto shrink-0 text-xs font-semibold"
+        >
+          <button 
+            @click="activeCheatTab = 'company'"
+            :class="activeCheatTab === 'company' ? (cheatTheme === 'dark' ? 'bg-indigo-600 text-white' : 'bg-indigo-600 text-white shadow-xs') : (cheatTheme === 'dark' ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100')"
+            class="flex items-center gap-1 px-3 py-1.5 rounded-lg whitespace-nowrap transition-all"
+          >
+            <i data-lucide="building" class="w-3.5 h-3.5"></i>
+            <span>🏢 志望動機・企業</span>
+          </button>
+
+          <button 
+            @click="activeCheatTab = 'reverseQ'"
+            :class="activeCheatTab === 'reverseQ' ? (cheatTheme === 'dark' ? 'bg-emerald-600 text-white' : 'bg-emerald-600 text-white shadow-xs') : (cheatTheme === 'dark' ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100')"
+            class="flex items-center gap-1 px-3 py-1.5 rounded-lg whitespace-nowrap transition-all"
+          >
+            <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+            <span>❓ 逆質問</span>
+          </button>
+
+          <button 
+            @click="activeCheatTab = 'qa'"
+            :class="activeCheatTab === 'qa' ? (cheatTheme === 'dark' ? 'bg-indigo-600 text-white' : 'bg-indigo-600 text-white shadow-xs') : (cheatTheme === 'dark' ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100')"
+            class="flex items-center gap-1 px-3 py-1.5 rounded-lg whitespace-nowrap transition-all"
+          >
+            <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+            <span>💬 想定Q&A</span>
+          </button>
+
+          <button 
+            @click="activeCheatTab = 'star'"
+            :class="activeCheatTab === 'star' ? (cheatTheme === 'dark' ? 'bg-amber-600 text-white' : 'bg-amber-600 text-white shadow-xs') : (cheatTheme === 'dark' ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100')"
+            class="flex items-center gap-1 px-3 py-1.5 rounded-lg whitespace-nowrap transition-all"
+          >
+            <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+            <span>⭐ STARエピソード</span>
+          </button>
+
+          <button 
+            @click="activeCheatTab = 'profile'"
+            :class="activeCheatTab === 'profile' ? (cheatTheme === 'dark' ? 'bg-violet-600 text-white' : 'bg-violet-600 text-white shadow-xs') : (cheatTheme === 'dark' ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100')"
+            class="flex items-center gap-1 px-3 py-1.5 rounded-lg whitespace-nowrap transition-all"
+          >
+            <i data-lucide="user" class="w-3.5 h-3.5"></i>
+            <span>👤 自己PR・基本</span>
+          </button>
+
+          <button 
+            @click="activeCheatTab = 'all'"
+            :class="activeCheatTab === 'all' ? (cheatTheme === 'dark' ? 'bg-slate-700 text-white' : 'bg-slate-800 text-white shadow-xs') : (cheatTheme === 'dark' ? 'text-slate-400 hover:bg-slate-800' : 'text-slate-600 hover:bg-slate-100')"
+            class="flex items-center gap-1 px-3 py-1.5 rounded-lg whitespace-nowrap transition-all"
+          >
+            <span>📜 すべて表示</span>
+          </button>
+        </div>
+
+        <!-- In-Interview Search & Accordion Controls -->
+        <div 
+          :class="cheatTheme === 'dark' ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-50 border-slate-200'"
+          class="px-3.5 sm:px-5 py-2 border-b flex items-center justify-between gap-2 shrink-0"
+        >
+          <!-- Search Bar -->
+          <div class="relative flex-1 max-w-lg">
             <i data-lucide="search" class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input 
               v-model="cheatSearchQuery" 
               type="text" 
-              placeholder="質問キーワードで即座にカンペ検索（例: 退職理由, 障害対応, 強み）..." 
-              class="w-full pl-8 pr-8 py-1.5 bg-slate-950 border border-slate-700/80 rounded-xl text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+              placeholder="キーワードで即座に絞り込み検索（例: 退職理由, クラウド, 障害）..." 
+              :class="cheatTheme === 'dark' ? 'bg-slate-950 border-slate-700 text-slate-100 focus:border-amber-400' : 'bg-white border-slate-300 text-slate-900 focus:border-indigo-600'"
+              class="w-full pl-8 pr-7 py-1 rounded-xl text-xs outline-none border focus:ring-1 focus:ring-amber-400 transition-all placeholder:text-slate-400"
             />
             <button 
               v-if="cheatSearchQuery" 
               @click="cheatSearchQuery = ''" 
-              class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200 text-xs"
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs"
             >
               ✕
             </button>
           </div>
-          <span class="text-[10px] text-slate-500 hidden md:inline">面接中の画面半分配置に最適化中</span>
+
+          <!-- Accordion Expand/Collapse All -->
+          <div class="flex items-center gap-1 shrink-0">
+            <button 
+              @click="expandAllCheatAccordions(true)" 
+              :class="cheatTheme === 'dark' ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-200'"
+              class="px-2 py-1 rounded-lg border text-[11px] font-semibold transition-colors"
+            >
+              すべて開く
+            </button>
+            <button 
+              @click="expandAllCheatAccordions(false)" 
+              :class="cheatTheme === 'dark' ? 'bg-slate-800 text-slate-300 hover:bg-slate-700' : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-200'"
+              class="px-2 py-1 rounded-lg border text-[11px] font-semibold transition-colors"
+            >
+              すべて閉じる
+            </button>
+          </div>
         </div>
 
-        <!-- Two-Pane Layout (Side-by-Side on PC, Stacked on narrow split/mobile) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-800 flex-1 overflow-y-auto dark-scrollbar">
-          
-          <!-- LEFT PANE: 企業固有のメモ（志望動機・ニュース・面接ログ・逆質問） -->
-          <div class="p-3.5 sm:p-5 space-y-4 overflow-y-auto dark-scrollbar">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
-              <h3 class="text-xs font-extrabold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
-                <i data-lucide="building" class="w-4 h-4"></i> 企業固有メモ & 逆質問
+        <!-- Main Cheat HUD Scroll Body -->
+        <div 
+          :class="[
+            getFontSizeClass(),
+            cheatTheme === 'dark' ? 'dark-scrollbar text-slate-200' : 'text-slate-800'
+          ]"
+          class="px-3.5 sm:px-6 py-4 overflow-y-auto space-y-4 flex-1"
+        >
+
+          <!-- ========================================== -->
+          <!-- 1. 【🏢 志望動機・企業理解】                   -->
+          <!-- ========================================== -->
+          <div v-if="activeCheatTab === 'company' || activeCheatTab === 'all'" class="space-y-3">
+            <div class="flex items-center justify-between border-b pb-1.5" :class="cheatTheme === 'dark' ? 'border-slate-800' : 'border-slate-200'">
+              <h3 class="font-extrabold text-indigo-500 uppercase tracking-wider flex items-center gap-1.5 text-xs sm:text-sm">
+                <i data-lucide="building" class="w-4 h-4"></i>
+                <span>【1】志望動機サマリー & 企業独自メモ</span>
               </h3>
-              <span class="text-[10px] text-slate-400">この会社専用</span>
             </div>
 
-            <!-- 軸マッチ状況 -->
-            <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5">
-              <span class="text-[10px] font-bold text-amber-400 block">転職の軸マッチ</span>
-              <div class="flex flex-wrap gap-1">
+            <!-- 転職の軸マッチ -->
+            <div 
+              :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'"
+              class="p-3 rounded-xl border space-y-1.5"
+            >
+              <span class="text-xs font-bold text-amber-500 flex items-center gap-1">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> この企業で叶える転職の軸
+              </span>
+              <div class="flex flex-wrap gap-1.5 pt-0.5">
                 <span 
                   v-for="(axis, idx) in axes" 
                   :key="idx" 
-                  class="text-[10px] px-2 py-0.5 rounded-md font-semibold"
-                  :class="activeCheatJob.matchedAxes && activeCheatJob.matchedAxes.includes(idx) ? 'bg-amber-400/10 text-amber-200 border border-amber-400/30' : 'bg-slate-800 text-slate-500 line-through'"
+                  class="text-xs px-2.5 py-1 rounded-lg font-bold flex items-center gap-1.5"
+                  :class="activeCheatJob.matchedAxes && activeCheatJob.matchedAxes.includes(idx) ? (cheatTheme === 'dark' ? 'bg-amber-400/20 text-amber-300 border border-amber-400/40' : 'bg-amber-100 text-amber-900 border border-amber-200') : (cheatTheme === 'dark' ? 'bg-slate-800/60 text-slate-500 line-through' : 'bg-slate-200 text-slate-400 line-through')"
                 >
-                  {{ axis }}
+                  <span>{{ activeCheatJob.matchedAxes && activeCheatJob.matchedAxes.includes(idx) ? '🔥' : '⚪' }}</span>
+                  <span>{{ axis }}</span>
                 </span>
               </div>
             </div>
 
-            <!-- 志望動機サマリー -->
-            <div class="p-3 rounded-xl bg-indigo-950/30 border border-indigo-800/40 space-y-1">
-              <span class="text-xs font-bold text-indigo-300 block">なぜこの会社か（差別化・共感ポイント）</span>
-              <p class="text-xs text-slate-200 whitespace-pre-wrap leading-relaxed">
-                {{ activeCheatJob.whyCompany || '（志望動機メモが未入力です）' }}
+            <!-- なぜこの会社か -->
+            <div 
+              :class="cheatTheme === 'dark' ? 'bg-indigo-950/40 border-indigo-800/50 text-slate-100' : 'bg-indigo-50/80 border-indigo-200 text-slate-900'"
+              class="p-3.5 rounded-xl border space-y-1.5 shadow-2xs"
+            >
+              <div class="flex items-center gap-1.5 text-xs font-extrabold text-indigo-500">
+                <i data-lucide="target" class="w-4 h-4"></i>
+                <span>なぜこの会社か（競合との差別化・惹かれている点）</span>
+              </div>
+              <p class="whitespace-pre-wrap leading-relaxed font-medium">
+                {{ activeCheatJob.whyCompany || activeCheatJob.motivationNote || '（志望動機メモが未入力です）' }}
               </p>
             </div>
 
-            <!-- 最新ニュース & 特記事項 -->
-            <div v-if="activeCheatJob.recentNews" class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
-              <span class="text-[11px] font-bold text-slate-400 block">気になるニュース・IR</span>
-              <p class="text-xs text-slate-300 whitespace-pre-wrap leading-relaxed">{{ activeCheatJob.recentNews }}</p>
+            <!-- 気になるニュース・IR -->
+            <div 
+              v-if="activeCheatJob.recentNews" 
+              :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'"
+              class="p-3 rounded-xl border space-y-1"
+            >
+              <span class="text-xs font-bold text-slate-500 block">気になるニュース・最新動向・IR情報</span>
+              <p class="whitespace-pre-wrap leading-relaxed">{{ activeCheatJob.recentNews }}</p>
             </div>
-
-            <!-- 面接ログ & 用意した逆質問 -->
-            <div class="space-y-3 pt-1">
-              <h4 class="text-xs font-bold text-sky-400 flex items-center gap-1">
-                <i data-lucide="message-circle" class="w-3.5 h-3.5"></i> 各面接ログ & 逆質問リスト
-              </h4>
-
-              <div v-if="activeCheatJob.interviews && activeCheatJob.interviews.length > 0" class="space-y-3">
-                <div 
-                  v-for="(phase, pIdx) in activeCheatJob.interviews" 
-                  :key="pIdx" 
-                  class="p-3 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2"
-                >
-                  <div class="flex items-center justify-between border-b border-slate-800 pb-1">
-                    <span class="font-bold text-xs text-sky-300">{{ phase.phaseName }}</span>
-                    <span class="text-[10px] text-slate-400">{{ phase.date }}</span>
-                  </div>
-
-                  <!-- 面接官 -->
-                  <div v-if="phase.interviewerRole || phase.interviewerName" class="text-[11px] text-slate-300 bg-slate-950/70 p-2 rounded-lg">
-                    <span class="font-bold text-slate-200">面接官: {{ phase.interviewerRole }} {{ phase.interviewerName }}</span>
-                    <p class="text-[10px] text-slate-400 mt-0.5">{{ phase.interviewerNotes }}</p>
-                  </div>
-
-                  <!-- 逆質問 -->
-                  <div v-if="phase.reverseQuestions && phase.reverseQuestions.length > 0" class="space-y-1.5">
-                    <span class="text-[11px] font-bold text-emerald-400 block">用意した逆質問</span>
-                    <div v-for="(rq, rIdx) in phase.reverseQuestions" :key="rIdx" class="p-2 bg-slate-950 rounded-lg border border-slate-800/80 space-y-1">
-                      <p class="text-xs font-bold text-slate-200">Q. {{ rq.question }}</p>
-                      <textarea 
-                        v-model="rq.answer" 
-                        rows="1" 
-                        placeholder="回答メモ..." 
-                        class="w-full p-1 bg-slate-900 border border-slate-800 rounded text-xs text-slate-200 outline-none"
-                      ></textarea>
-                    </div>
-                  </div>
-
-                  <!-- 過去質問 -->
-                  <div v-if="phase.qaList && phase.qaList.length > 0" class="space-y-1 pt-1 border-t border-slate-800/60 text-xs">
-                    <span class="text-[10px] font-bold text-slate-400 block">聞かれた質問メモ</span>
-                    <div v-for="(qa, qIdx) in phase.qaList" :key="qIdx" class="text-[11px] p-1.5 rounded bg-slate-950/50">
-                      <p class="text-slate-300 font-semibold">問: {{ qa.question }}</p>
-                      <p class="text-slate-400 mt-0.5">答: {{ qa.answer }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div v-else class="text-xs text-slate-500 text-center py-2">面接ログ未登録</div>
-            </div>
-
           </div>
 
-          <!-- RIGHT PANE: 共通ネタ帳（自己PR・想定Q&A・STARエピソード） -->
-          <div class="p-3.5 sm:p-5 space-y-4 overflow-y-auto dark-scrollbar bg-slate-950/30">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
-              <h3 class="text-xs font-extrabold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                <i data-lucide="book-open" class="w-4 h-4"></i> 共通ネタ帳（Q&A・STAR・自己PR）
+          <!-- ========================================== -->
+          <!-- 2. 【❓ 逆質問】 (面接官・消化チェック機能付き) -->
+          <!-- ========================================== -->
+          <div v-if="activeCheatTab === 'reverseQ' || activeCheatTab === 'all'" class="space-y-3">
+            <div class="flex items-center justify-between border-b pb-1.5" :class="cheatTheme === 'dark' ? 'border-slate-800' : 'border-slate-200'">
+              <h3 class="font-extrabold text-emerald-500 uppercase tracking-wider flex items-center gap-1.5 text-xs sm:text-sm">
+                <i data-lucide="message-square" class="w-4 h-4"></i>
+                <span>【2】用意した逆質問リスト（面接中のチェック対応）</span>
               </h3>
-              <span class="text-[10px] text-slate-400">全社共通マスター</span>
+              <span class="text-xs text-slate-400">質問後にチェックで消込</span>
             </div>
 
-            <!-- 自己紹介サマリー -->
-            <div v-if="!cheatSearchQuery" class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1">
-              <span class="text-xs font-bold text-indigo-300 block">1分自己紹介サマリー</span>
-              <p class="text-xs text-slate-200 whitespace-pre-wrap leading-relaxed">{{ masterData.selfIntro }}</p>
-            </div>
+            <div v-if="activeCheatJob.interviews && activeCheatJob.interviews.length > 0" class="space-y-3">
+              <div 
+                v-for="(phase, pIdx) in activeCheatJob.interviews" 
+                :key="pIdx" 
+                :class="cheatTheme === 'dark' ? 'bg-slate-900/90 border-slate-800' : 'bg-slate-50 border-slate-200'"
+                class="p-3.5 rounded-xl border space-y-2.5"
+              >
+                <!-- Phase & Interviewer Bar -->
+                <div class="flex flex-wrap items-center justify-between gap-1 border-b pb-1.5" :class="cheatTheme === 'dark' ? 'border-slate-800' : 'border-slate-200'">
+                  <div class="flex items-center gap-2">
+                    <span class="font-extrabold text-sky-500 text-xs sm:text-sm">{{ phase.phaseName }}</span>
+                    <span v-if="phase.date" class="text-xs text-slate-400 font-medium">({{ phase.date }})</span>
+                  </div>
+                  <div v-if="phase.interviewerRole || phase.interviewerName" class="text-xs text-slate-400 font-medium">
+                    面接官: <strong :class="cheatTheme === 'dark' ? 'text-slate-200' : 'text-slate-700'">{{ phase.interviewerRole }} {{ phase.interviewerName }}</strong>
+                    <span v-if="phase.interviewerNotes" class="ml-1 text-[11px] text-slate-500">({{ phase.interviewerNotes }})</span>
+                  </div>
+                </div>
 
-            <!-- 想定質問＆回答 (Q&Aリスト - 検索対応) -->
-            <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-emerald-400 flex items-center gap-1">
-                  <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> 想定Q&A
-                </span>
-                <span class="text-[10px] text-slate-400">{{ filteredMasterQA.length }} 件</span>
+                <!-- Reverse Questions Check List -->
+                <div v-if="phase.reverseQuestions && phase.reverseQuestions.length > 0" class="space-y-2">
+                  <div 
+                    v-for="(rq, rIdx) in phase.reverseQuestions" 
+                    :key="rIdx" 
+                    :class="[
+                      rq.asked ? (cheatTheme === 'dark' ? 'bg-slate-950/40 opacity-50 border-slate-800' : 'bg-slate-100 opacity-60 border-slate-200') : (cheatTheme === 'dark' ? 'bg-slate-950 border-slate-800' : 'bg-white border-slate-200 shadow-2xs'),
+                      'p-2.5 rounded-xl border space-y-1.5 transition-all'
+                    ]"
+                  >
+                    <div class="flex items-start gap-2">
+                      <input 
+                        type="checkbox" 
+                        v-model="rq.asked" 
+                        class="mt-1 w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                        title="質問済みにする"
+                      />
+                      <div class="flex-1 min-w-0">
+                        <p 
+                          :class="rq.asked ? 'line-through text-slate-500' : (cheatTheme === 'dark' ? 'text-emerald-300 font-bold' : 'text-emerald-800 font-bold')"
+                          class="leading-snug text-xs sm:text-sm"
+                        >
+                          Q. {{ rq.question }}
+                        </p>
+                        <span v-if="rq.respondent" class="text-[10px] text-slate-400 block mt-0.5">回答予定者: {{ rq.respondent }}</span>
+                      </div>
+                    </div>
+
+                    <!-- Answer Memo In Cheat -->
+                    <textarea 
+                      v-model="rq.answer" 
+                      rows="1" 
+                      placeholder="面接官の回答メモ..." 
+                      :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-800'"
+                      class="w-full p-1.5 rounded-lg text-xs outline-none border focus:border-indigo-400"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div v-else class="text-xs text-slate-400 py-1">逆質問が登録されていません</div>
               </div>
+            </div>
+            <div v-else class="text-xs text-slate-400 py-2 text-center">面接ログが登録されていません</div>
+          </div>
 
-              <div class="space-y-2">
-                <div 
-                  v-for="(qa, qIdx) in filteredMasterQA" 
-                  :key="qIdx" 
-                  class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 space-y-1"
+          <!-- ========================================== -->
+          <!-- 3. 【💬 想定Q&A】 (タグ & アコーディオン)      -->
+          <!-- ========================================== -->
+          <div v-if="activeCheatTab === 'qa' || activeCheatTab === 'all'" class="space-y-3">
+            <div class="flex items-center justify-between border-b pb-1.5" :class="cheatTheme === 'dark' ? 'border-slate-800' : 'border-slate-200'">
+              <h3 class="font-extrabold text-sky-500 uppercase tracking-wider flex items-center gap-1.5 text-xs sm:text-sm">
+                <i data-lucide="help-circle" class="w-4 h-4"></i>
+                <span>【3】想定質問＆回答（Q&Aリスト）</span>
+              </h3>
+              <span class="text-xs text-slate-400">{{ filteredMasterQA.length }} 件</span>
+            </div>
+
+            <div class="space-y-2">
+              <div 
+                v-for="(qa, qIdx) in filteredMasterQA" 
+                :key="qIdx" 
+                :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-2xs'"
+                class="rounded-xl border overflow-hidden transition-all"
+              >
+                <!-- Accordion Header -->
+                <button 
+                  @click="toggleQAAccordion(qIdx)" 
+                  class="w-full p-2.5 sm:p-3 text-left flex items-center justify-between gap-2 transition-colors hover:bg-indigo-50/10"
                 >
-                  <div class="flex items-center justify-between gap-1">
-                    <span v-if="qa.tag" class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/40">
+                  <div class="flex items-center gap-2 min-w-0 flex-1">
+                    <span 
+                      v-if="qa.tag" 
+                      :class="cheatTheme === 'dark' ? 'bg-sky-950 text-sky-300 border-sky-800/60' : 'bg-sky-50 text-sky-700 border-sky-200'"
+                      class="text-[10px] font-bold px-2 py-0.5 rounded-md border shrink-0"
+                    >
                       {{ qa.tag }}
                     </span>
-                    <p class="text-xs font-bold text-slate-100 flex-1 truncate">{{ qa.question }}</p>
+                    <span class="font-bold text-xs sm:text-sm leading-snug truncate">{{ qa.question }}</span>
                   </div>
-                  <p class="text-xs text-slate-300 whitespace-pre-wrap leading-relaxed pt-0.5">{{ qa.answer }}</p>
-                </div>
-                <div v-if="filteredMasterQA.length === 0" class="text-xs text-slate-500 text-center py-2">
-                  該当する想定Q&Aはありません
-                </div>
-              </div>
-            </div>
+                  <i 
+                    data-lucide="chevron-down" 
+                    :class="openQAIndexes.includes(qIdx) ? 'rotate-180 text-indigo-500' : 'text-slate-400'"
+                    class="w-4 h-4 shrink-0 transition-transform duration-200"
+                  ></i>
+                </button>
 
-            <!-- STARエピソード集 (検索対応) -->
-            <div class="space-y-2 pt-2 border-t border-slate-800/80">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-amber-400 flex items-center gap-1">
-                  <i data-lucide="layers" class="w-3.5 h-3.5"></i> STARエピソード集
-                </span>
-                <span class="text-[10px] text-slate-400">{{ filteredMasterEpisodes.length }} 件</span>
-              </div>
-
-              <div class="space-y-2.5">
+                <!-- Accordion Body -->
                 <div 
-                  v-for="(ep, eIdx) in filteredMasterEpisodes" 
-                  :key="eIdx" 
-                  class="p-3 rounded-xl bg-slate-900 border border-slate-800 space-y-1.5"
+                  v-if="openQAIndexes.includes(qIdx)" 
+                  :class="cheatTheme === 'dark' ? 'bg-slate-950/70 border-t border-slate-800/80 text-slate-200' : 'bg-slate-50 border-t border-slate-100 text-slate-800'"
+                  class="p-3 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap font-medium"
                 >
-                  <h5 class="font-bold text-xs text-amber-300">{{ ep.title }}</h5>
-                  <div class="space-y-1 text-xs">
-                    <p class="text-slate-400"><strong class="text-slate-300">【課題】:</strong> {{ ep.task }}</p>
-                    <p class="text-slate-200"><strong class="text-indigo-400">【行動】:</strong> {{ ep.action }}</p>
-                    <p class="text-emerald-300"><strong class="text-emerald-400">【成果】:</strong> {{ ep.result }}</p>
+                  {{ qa.answer }}
+                </div>
+              </div>
+
+              <div v-if="filteredMasterQA.length === 0" class="text-xs text-slate-400 py-3 text-center">
+                該当する想定Q&Aはありません
+              </div>
+            </div>
+          </div>
+
+          <!-- ========================================== -->
+          <!-- 4. 【⭐ STARエピソード】 (ハイライトバッジ)     -->
+          <!-- ========================================== -->
+          <div v-if="activeCheatTab === 'star' || activeCheatTab === 'all'" class="space-y-3">
+            <div class="flex items-center justify-between border-b pb-1.5" :class="cheatTheme === 'dark' ? 'border-slate-800' : 'border-slate-200'">
+              <h3 class="font-extrabold text-amber-500 uppercase tracking-wider flex items-center gap-1.5 text-xs sm:text-sm">
+                <i data-lucide="layers" class="w-4 h-4"></i>
+                <span>【4】STARエピソード集（成功・困難克服）</span>
+              </h3>
+              <span class="text-xs text-slate-400">{{ filteredMasterEpisodes.length }} 件</span>
+            </div>
+
+            <div class="space-y-2.5">
+              <div 
+                v-for="(ep, eIdx) in filteredMasterEpisodes" 
+                :key="eIdx" 
+                :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200 shadow-2xs'"
+                class="rounded-xl border overflow-hidden transition-all"
+              >
+                <!-- Accordion Header -->
+                <button 
+                  @click="toggleEpisodeAccordion(eIdx)" 
+                  class="w-full p-2.5 sm:p-3 text-left flex items-center justify-between gap-2 hover:bg-amber-50/10 transition-colors"
+                >
+                  <span class="font-extrabold text-xs sm:text-sm leading-snug truncate text-amber-500">
+                    {{ ep.title || 'エピソード ' + (eIdx + 1) }}
+                  </span>
+                  <i 
+                    data-lucide="chevron-down" 
+                    :class="openEpisodeIndexes.includes(eIdx) ? 'rotate-180 text-amber-500' : 'text-slate-400'"
+                    class="w-4 h-4 shrink-0 transition-transform duration-200"
+                  ></i>
+                </button>
+
+                <!-- Accordion Body with STAR Highlight Design -->
+                <div 
+                  v-if="openEpisodeIndexes.includes(eIdx)" 
+                  :class="cheatTheme === 'dark' ? 'bg-slate-950/70 border-t border-slate-800 text-slate-200' : 'bg-slate-50 border-t border-slate-100 text-slate-800'"
+                  class="p-3 sm:p-3.5 space-y-2 text-xs sm:text-sm leading-relaxed"
+                >
+                  <div v-if="ep.situation" class="flex items-start gap-2">
+                    <span :class="cheatTheme === 'dark' ? 'bg-slate-800 text-slate-300' : 'bg-slate-200 text-slate-700'" class="font-extrabold text-[10px] px-1.5 py-0.5 rounded shrink-0">状況</span>
+                    <p class="text-slate-400 font-medium">{{ ep.situation }}</p>
+                  </div>
+                  <div v-if="ep.task" class="flex items-start gap-2">
+                    <span :class="cheatTheme === 'dark' ? 'bg-rose-950/80 text-rose-300 border border-rose-800/40' : 'bg-rose-100 text-rose-800 border border-rose-200'" class="font-extrabold text-[10px] px-1.5 py-0.5 rounded shrink-0">課題</span>
+                    <p :class="cheatTheme === 'dark' ? 'text-rose-200' : 'text-rose-950'" class="font-bold">{{ ep.task }}</p>
+                  </div>
+                  <div v-if="ep.action" class="flex items-start gap-2">
+                    <span :class="cheatTheme === 'dark' ? 'bg-indigo-950 text-indigo-300 border border-indigo-800/40' : 'bg-indigo-100 text-indigo-800 border border-indigo-200'" class="font-extrabold text-[10px] px-1.5 py-0.5 rounded shrink-0">行動</span>
+                    <p :class="cheatTheme === 'dark' ? 'text-indigo-200' : 'text-indigo-950'" class="font-bold whitespace-pre-wrap">{{ ep.action }}</p>
+                  </div>
+                  <div v-if="ep.result" class="flex items-start gap-2">
+                    <span :class="cheatTheme === 'dark' ? 'bg-emerald-950 text-emerald-300 border border-emerald-800/40' : 'bg-emerald-100 text-emerald-800 border border-emerald-200'" class="font-extrabold text-[10px] px-1.5 py-0.5 rounded shrink-0">成果</span>
+                    <p :class="cheatTheme === 'dark' ? 'text-emerald-300' : 'text-emerald-800'" class="font-extrabold">{{ ep.result }}</p>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- 強み弱み & 定番逆質問 -->
-            <div v-if="!cheatSearchQuery" class="space-y-2 pt-2 border-t border-slate-800/80 text-xs">
-              <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                <span class="text-[10px] font-bold text-slate-400 block mb-0.5">共通の強み・弱み</span>
-                <p class="text-slate-300 whitespace-pre-wrap leading-relaxed">{{ masterData.strengthsWeaknesses }}</p>
-              </div>
-              <div class="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                <span class="text-[10px] font-bold text-violet-400 block mb-0.5">定番逆質問ストック</span>
-                <p class="text-slate-300 whitespace-pre-wrap leading-relaxed">{{ masterData.commonReverseQuestions }}</p>
+              <div v-if="filteredMasterEpisodes.length === 0" class="text-xs text-slate-400 py-3 text-center">
+                該当するエピソードはありません
               </div>
             </div>
+          </div>
 
+          <!-- ========================================== -->
+          <!-- 5. 【👤 自己PR・基本】 (自己紹介・強み・ビジョン)-->
+          <!-- ========================================== -->
+          <div v-if="activeCheatTab === 'profile' || activeCheatTab === 'all'" class="space-y-3">
+            <div class="flex items-center justify-between border-b pb-1.5" :class="cheatTheme === 'dark' ? 'border-slate-800' : 'border-slate-200'">
+              <h3 class="font-extrabold text-violet-500 uppercase tracking-wider flex items-center gap-1.5 text-xs sm:text-sm">
+                <i data-lucide="user" class="w-4 h-4"></i>
+                <span>【5】自己PR・経歴・キャリアビジョン</span>
+              </h3>
+            </div>
+
+            <!-- 自己紹介 -->
+            <div 
+              :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'"
+              class="p-3.5 rounded-xl border space-y-1"
+            >
+              <span class="text-xs font-bold text-indigo-500 block">1分自己紹介サマリー（エレベーターピッチ）</span>
+              <p class="whitespace-pre-wrap leading-relaxed font-medium">{{ masterData.selfIntro }}</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <!-- 強み・弱み -->
+              <div 
+                :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'"
+                class="p-3 rounded-xl border space-y-1"
+              >
+                <span class="text-xs font-bold text-emerald-500 block">共通の強み・弱み</span>
+                <p class="whitespace-pre-wrap leading-relaxed">{{ masterData.strengthsWeaknesses }}</p>
+              </div>
+
+              <!-- キャリアビジョン -->
+              <div 
+                :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'"
+                class="p-3 rounded-xl border space-y-1"
+              >
+                <span class="text-xs font-bold text-amber-500 block">キャリアビジョン（3・5・10年）</span>
+                <p class="whitespace-pre-wrap leading-relaxed">{{ masterData.careerVision }}</p>
+              </div>
+            </div>
+
+            <!-- 定番逆質問ストック -->
+            <div 
+              :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'"
+              class="p-3 rounded-xl border space-y-1"
+            >
+              <span class="text-xs font-bold text-violet-500 block">全社共通・定番逆質問ストック</span>
+              <p class="whitespace-pre-wrap leading-relaxed">{{ masterData.commonReverseQuestions }}</p>
+            </div>
           </div>
 
         </div>
 
-        <!-- Footer -->
-        <div class="px-4 py-2.5 bg-slate-900 border-t border-slate-800 flex items-center justify-between shrink-0">
-          <span class="text-xs text-slate-400">自信を持って、結論ファーストで！ 🚀</span>
-          <button @click="isCheatSheetOpen = false" class="px-4 py-1.5 text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-all">
-            閉じる
+        <!-- Sticky Footer -->
+        <div 
+          :class="cheatTheme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-slate-50 border-slate-200'"
+          class="px-4 py-2 border-t flex items-center justify-between shrink-0 text-xs font-semibold"
+        >
+          <span class="text-slate-400">自信を持って、結論ファースト・笑顔で！ 🚀</span>
+          <button 
+            @click="isCheatSheetOpen = false" 
+            class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white rounded-xl font-bold transition-all shadow-xs"
+          >
+            カンペを閉じる
           </button>
         </div>
 
@@ -1460,7 +1742,7 @@
               { question: 'これまでの最大のインフラ障害と対処法は？', answer: 'マルチAZ切り替え時のレイテンシ問題に対し、ルーティング見直しとキャッシュ最適化で対応。' }
             ],
             reverseQuestions: [
-              { question: '今後のマルチクラウド戦略の優先度は？', respondent: '佐藤様', answer: 'AWS基盤を軸にしつつ、ハイブリッド需要に応じた柔軟な連携を推進中。' }
+              { question: '今後のマルチクラウド戦略の優先度は？', respondent: '佐藤様', answer: 'AWS基盤を軸にしつつ、ハイブリッド需要に応じた柔軟な連携を推進中。', asked: true }
             ]
           },
           {
@@ -1471,8 +1753,8 @@
             interviewerNotes: '企業理念への共感、なぜ今この会社なのかの熱量を重視。',
             qaList: [],
             reverseQuestions: [
-              { question: '中長期で事業部が目指す姿と、中途採用者に求める最大の役割は？', respondent: '', answer: '' },
-              { question: '組織が急成長する中で維持したいカルチャーのコアは何ですか？', respondent: '', answer: '' }
+              { question: '中長期で事業部が目指す姿と、中途採用者に求める最大の役割は？', respondent: '', answer: '', asked: false },
+              { question: '組織が急成長する中で維持したいカルチャーのコアは何ですか？', respondent: '', answer: '', asked: false }
             ]
           }
         ]
@@ -1503,7 +1785,7 @@
             interviewerNotes: '技術スタックの合致度と自走力を重視している印象。',
             qaList: [],
             reverseQuestions: [
-              { question: '現在のシステムの技術的負債で一番クリティカルな点は？', respondent: '', answer: '' }
+              { question: '現在のシステムの技術的負債で一番クリティカルな点は？', respondent: '', answer: '', asked: false }
             ]
           }
         ]
@@ -1525,9 +1807,17 @@
         const jobModalTab = ref('basic'); // 'basic' | 'interviews'
         const editingJob = ref({});
         
+        // カンペモード (HUD) 状態管理
         const isCheatSheetOpen = ref(false);
         const activeCheatJob = ref({});
         const cheatSearchQuery = ref('');
+        const activeCheatTab = ref('company'); // 'company' | 'reverseQ' | 'qa' | 'star' | 'profile' | 'all'
+        const cheatTheme = ref('dark'); // 'dark' | 'light'
+        const cheatFontSize = ref('base'); // 'sm' | 'base' | 'lg'
+
+        // アコーディオン開閉状態
+        const openQAIndexes = ref([]);
+        const openEpisodeIndexes = ref([]);
 
         const isAxesModalOpen = ref(false);
         const tempAxes = ref([]);
@@ -1538,18 +1828,21 @@
 
         let sortableInstances = [];
 
-        const STORAGE_KEY_JOBS = 'careerlog_jobs_v3';
-        const STORAGE_KEY_AXES = 'careerlog_axes_v3';
-        const STORAGE_KEY_MASTER = 'careerlog_master_v3';
+        const STORAGE_KEY_JOBS = 'careerlog_jobs_v4';
+        const STORAGE_KEY_AXES = 'careerlog_axes_v4';
+        const STORAGE_KEY_MASTER = 'careerlog_master_v4';
+        const STORAGE_KEY_THEME = 'careerlog_cheat_theme_v4';
 
         const loadData = () => {
           try {
             const savedJobs = localStorage.getItem(STORAGE_KEY_JOBS);
             const savedAxes = localStorage.getItem(STORAGE_KEY_AXES);
             const savedMaster = localStorage.getItem(STORAGE_KEY_MASTER);
+            const savedTheme = localStorage.getItem(STORAGE_KEY_THEME);
 
             jobs.value = savedJobs ? JSON.parse(savedJobs) : DEFAULT_JOBS;
             axes.value = savedAxes ? JSON.parse(savedAxes) : DEFAULT_AXES;
+            if (savedTheme) cheatTheme.value = savedTheme;
             
             if (savedMaster) {
               const parsed = JSON.parse(savedMaster);
@@ -1571,12 +1864,13 @@
             localStorage.setItem(STORAGE_KEY_JOBS, JSON.stringify(jobs.value));
             localStorage.setItem(STORAGE_KEY_AXES, JSON.stringify(axes.value));
             localStorage.setItem(STORAGE_KEY_MASTER, JSON.stringify(masterData.value));
+            localStorage.setItem(STORAGE_KEY_THEME, cheatTheme.value);
           } catch (e) {
             console.warn('LocalStorage保存容量エラーの可能性があります:', e);
           }
         };
 
-        watch([jobs, axes, masterData], saveData, { deep: true });
+        watch([jobs, axes, masterData, cheatTheme], saveData, { deep: true });
 
         const initSortables = () => {
           sortableInstances.forEach(inst => inst.destroy());
@@ -1667,6 +1961,57 @@
             (ep.action && ep.action.toLowerCase().includes(q)) ||
             (ep.result && ep.result.toLowerCase().includes(q))
           );
+        });
+
+        // カンペ文字サイズクラス算出
+        const getFontSizeClass = () => {
+          if (cheatFontSize.value === 'sm') return 'text-[11px]';
+          if (cheatFontSize.value === 'lg') return 'text-[14px] leading-relaxed';
+          return 'text-xs leading-normal';
+        };
+
+        const toggleCheatTheme = () => {
+          cheatTheme.value = cheatTheme.value === 'dark' ? 'light' : 'dark';
+          triggerIconsUpdate();
+        };
+
+        // アコーディオン制御
+        const toggleQAAccordion = (idx) => {
+          const pos = openQAIndexes.value.indexOf(idx);
+          if (pos === -1) {
+            openQAIndexes.value.push(idx);
+          } else {
+            openQAIndexes.value.splice(pos, 1);
+          }
+          triggerIconsUpdate();
+        };
+
+        const toggleEpisodeAccordion = (idx) => {
+          const pos = openEpisodeIndexes.value.indexOf(idx);
+          if (pos === -1) {
+            openEpisodeIndexes.value.push(idx);
+          } else {
+            openEpisodeIndexes.value.splice(pos, 1);
+          }
+          triggerIconsUpdate();
+        };
+
+        const expandAllCheatAccordions = (expand) => {
+          if (expand) {
+            openQAIndexes.value = masterData.value.qaList ? masterData.value.qaList.map((_, i) => i) : [];
+            openEpisodeIndexes.value = masterData.value.episodes ? masterData.value.episodes.map((_, i) => i) : [];
+          } else {
+            openQAIndexes.value = [];
+            openEpisodeIndexes.value = [];
+          }
+          triggerIconsUpdate();
+        };
+
+        // 検索実行時に該当アコーディオンを自動展開
+        watch(cheatSearchQuery, (newVal) => {
+          if (newVal.trim()) {
+            expandAllCheatAccordions(true);
+          }
         });
 
         // 求人モーダル操作
@@ -1794,7 +2139,7 @@
           }
         };
 
-        // 面接フェーズ・構造化リスト操作
+        // 面接フェーズ操作
         const addInterviewPhase = () => {
           if (!editingJob.value.interviews) editingJob.value.interviews = [];
           const count = editingJob.value.interviews.length + 1;
@@ -1824,11 +2169,11 @@
 
         const addReverseQItem = (phase) => {
           if (!phase.reverseQuestions) phase.reverseQuestions = [];
-          phase.reverseQuestions.push({ question: '', respondent: '', answer: '' });
+          phase.reverseQuestions.push({ question: '', respondent: '', answer: '', asked: false });
           triggerIconsUpdate();
         };
 
-        // 共通ネタ帳: 想定Q&A
+        // 共通ネタ帳操作
         const addMasterQA = () => {
           if (!masterData.value.qaList) masterData.value.qaList = [];
           masterData.value.qaList.unshift({
@@ -1836,6 +2181,7 @@
             question: '',
             answer: ''
           });
+          openQAIndexes.value.push(0);
           triggerIconsUpdate();
         };
 
@@ -1845,7 +2191,6 @@
           }
         };
 
-        // 共通ネタ帳: STARエピソード
         const addMasterEpisode = () => {
           if (!masterData.value.episodes) masterData.value.episodes = [];
           masterData.value.episodes.push({
@@ -1855,6 +2200,7 @@
             action: '',
             result: ''
           });
+          openEpisodeIndexes.value.push(masterData.value.episodes.length - 1);
           triggerIconsUpdate();
         };
 
@@ -1864,10 +2210,12 @@
           }
         };
 
-        // カンペモード
+        // カンペモード起動
         const openCheatSheet = (job) => {
           activeCheatJob.value = job;
           cheatSearchQuery.value = '';
+          activeCheatTab.value = 'company';
+          expandAllCheatAccordions(true); // 初期表示は展開状態
           isCheatSheetOpen.value = true;
           triggerIconsUpdate();
         };
@@ -1897,7 +2245,7 @@
             axes: axes.value,
             jobs: jobs.value,
             masterData: masterData.value,
-            version: '3.0',
+            version: '4.0',
             exportDate: new Date().toISOString()
           };
         };
@@ -1906,7 +2254,7 @@
           try {
             const dataStr = JSON.stringify(getExportObject(), null, 2);
             await navigator.clipboard.writeText(dataStr);
-            alert('全データをクリップボードにコピーしました！\nスマホや別端末で「貼り付けて復元」を行ってください。');
+            alert('全データをクリップボードにコピーしました！\n別端末で「貼り付けて復元」を行ってください。');
           } catch (err) {
             alert('コピーに失敗しました。JSONファイルエクスポートをご利用ください。');
           }
@@ -2077,6 +2425,16 @@
           isCheatSheetOpen,
           activeCheatJob,
           cheatSearchQuery,
+          activeCheatTab,
+          cheatTheme,
+          cheatFontSize,
+          openQAIndexes,
+          openEpisodeIndexes,
+          getFontSizeClass,
+          toggleCheatTheme,
+          toggleQAAccordion,
+          toggleEpisodeAccordion,
+          expandAllCheatAccordions,
           openCheatSheet,
           isAxesModalOpen,
           tempAxes,
